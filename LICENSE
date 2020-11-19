@@ -1,6 +1,18 @@
+Different stack elements may be differently licensed.
+Check individual directories for license conditions in each case.
+
+### `base-notebook`
+
+Originally based on https://github.com/jupyter/docker-stacks/tree/master/base-notebook
+- Copyright (c) 2001-2015, IPython Development Team
+- Copyright (c) 2015-, Jupyter Development Team
+
+
+## Repo license otherwise:
+
 MIT License
 
-Copyright (c) 2020 OpenComputingLab
+Copyright (c) 2020 Tony Hirst, The Open University
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
