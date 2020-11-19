@@ -99,7 +99,8 @@ CMD ["start-notebook.sh"]
 
 # Copy local files as late as possible to avoid cache busting
 COPY start.sh start-notebook.sh start-singleuser.sh /usr/local/bin/
-COPY jupyter_notebook_config.py /etc/jupyter/
+#COPY .jupyter/jupyter_notebook_config.py /etc/jupyter/
+COPY .jupyter/ /home/$NB_USER/.jupyter/
 
 # Fix permissions on /etc/jupyter as root
 USER root
