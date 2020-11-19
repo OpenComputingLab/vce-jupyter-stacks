@@ -38,6 +38,8 @@ RUN apt-get update \
     fonts-liberation \
     tini \
     build-essential \
+    unzip \
+    git \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
