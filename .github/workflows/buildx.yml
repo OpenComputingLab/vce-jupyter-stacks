@@ -50,7 +50,7 @@ jobs:
           docker buildx build \
             --platform linux/amd64,linux/arm/v7 \
             -t oulocl/vce-jupyter-base:${GITHUB_SHA::7} \
-            . \
+            ./base-notebook \
             --push
           docker buildx build \
             --platform linux/amd64,linux/arm/v7 \
