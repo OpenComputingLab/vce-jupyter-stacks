@@ -104,7 +104,7 @@ COPY .jupyter/ /home/$NB_USER/.jupyter/
 
 # Fix permissions on /etc/jupyter as root
 USER root
-RUN fix-permissions /etc/jupyter/
+RUN fix-permissions /home/$NB_USER/.jupyter/
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER $NB_UID
