@@ -28,7 +28,7 @@ RUN pip install --user --extra-index-url=https://www.piwheels.org/simple \
     'h5py' \
     'ipywidgets' \
     'ipympl'\
-    'pytables' \
+    'tables' \
     'seaborn' \
     'statsmodels' \
     'widgetsnbextension'\

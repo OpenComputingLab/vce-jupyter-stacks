@@ -7,13 +7,12 @@ FROM $BASE_CONTAINER
 LABEL maintainer="Tony Hirst <tony.hirst@open.ac.uk>"
 
 
-USER $NB_UID
 
+USER root
 # Install Python 3 packages
 COPY ./wheelhouse/ ./wheelhouse/
 RUN echo scipy scikit_learn | xargs -n 1 pip install --find-links=./wheelhouse && rm -r ./wheelhouse
 
-RUN fix-permissions "/home/${NB_USER}"
-
+USER $NB_UID
 
 WORKDIR $HOME
