@@ -21,7 +21,7 @@ RUN echo kiwisolver matplotlib Pillow numpy pandas pyzmq | xargs -n 1 pip instal
 
 USER $NB_UID
 
-RUN pip install --extra-index-url=https://www.piwheels.org/simple \
+RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \
     'beautifulsoup4' \
     'cython' \
     'dill' \
