@@ -27,8 +27,6 @@ RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \
     'dill' \
     'ipywidgets' \
     'ipympl' \
-    'plotly' \
-    'seaborn' \
     'widgetsnbextension'\
     'xlrd'
 
