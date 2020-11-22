@@ -11,8 +11,6 @@ USER root
 # ffmpeg for matplotlib anim & dvipng+cm-super for latex labels
 RUN apt-get update && \
     apt-get install -y --no-install-recommends ffmpeg dvipng cm-super && \
-    # HDF5 - this is stil not right
-    #apt-get install -y libhdf5-dev && \
     # Pillow support?
     apt-get install -y libjpeg-dev zlib1g-dev libfreetype6-dev  libopenjp2-7 libtiff5 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -27,13 +25,10 @@ RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \
     'beautifulsoup4' \
     'cython' \
     'dill' \
-    #'h5py' \
     'ipywidgets' \
     'ipympl' \
     'plotly' \
-    #'tables' \
     'seaborn' \
-    'statsmodels' \
     'widgetsnbextension'\
     'xlrd'
 
