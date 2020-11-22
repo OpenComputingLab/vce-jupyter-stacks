@@ -13,11 +13,12 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends ffmpeg dvipng cm-super && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-USER $NB_UID
 
 # Install Python 3 packages
 COPY ./wheelhouse/ ./wheelhouse
 RUN echo kiwisolver matplotlib Pillow numpy pandas pyzmq | xargs -n 1 pip install --find-links=./wheelhouse && rm -r ./wheelhouse
+
+USER $NB_UID
 
 RUN pip install \
     'beautifulsoup4' \
