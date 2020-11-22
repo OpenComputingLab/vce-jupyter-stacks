@@ -11,8 +11,9 @@ USER root
 # ffmpeg for matplotlib anim & dvipng+cm-super for latex labels
 RUN apt-get update && \
     apt-get install -y --no-install-recommends ffmpeg dvipng cm-super && \
+    # Pillow support?
+    apt-get install -y libjpeg-dev zlib1g-dev libfreetype6-dev  libopenjp2-7 libtiff5 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
-
 
 # Install Python 3 packages
 COPY ./wheelhouse/ ./wheelhouse
@@ -20,12 +21,12 @@ RUN echo kiwisolver matplotlib Pillow numpy pandas pyzmq | xargs -n 1 pip instal
 
 USER $NB_UID
 
-RUN pip install \
+RUN pip install --extra-index-url=https://www.piwheels.org/simple \
     'beautifulsoup4' \
     'cython' \
     'dill' \
     'h5py' \
-    'ipywidget' \
+    'ipywidgets' \
     'ipympl'\
     'pytables' \
     'seaborn' \
