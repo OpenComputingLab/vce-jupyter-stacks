@@ -38,8 +38,7 @@ RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \
 # Import matplotlib the first time to build the font cache.
 ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
 
-RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
-    fix-permissions "/home/${NB_USER}"
+RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot"
 
 USER $NB_UID
 
