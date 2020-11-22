@@ -25,7 +25,7 @@ RUN pip install --extra-index-url=https://www.piwheels.org/simple \
     'beautifulsoup4' \
     'cython' \
     'dill' \
-    'h5py' \
+    #'h5py' \
     'ipywidgets' \
     'ipympl' \
     'plotly' \
