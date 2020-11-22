@@ -17,7 +17,7 @@ USER $NB_UID
 
 # Install Python 3 packages
 COPY ./wheelhouse/ ./wheelhouse
-RUN echo kiwisolver matplotlib Pillow numpy scipy pandas pyzmq | xargs -n 1 pip install --find-links=./wheelhouse && rm -r ./wheelhouse
+RUN echo kiwisolver matplotlib Pillow numpy pandas pyzmq | xargs -n 1 pip install --find-links=./wheelhouse && rm -r ./wheelhouse
 
 RUN pip install \
     'beautifulsoup4' \
