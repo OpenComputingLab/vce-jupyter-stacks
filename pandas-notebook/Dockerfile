@@ -31,11 +31,11 @@ RUN pip install \
     'seaborn' \
     'statsmodels' \
     'widgetsnbextension'\
-    'xlrd' \
-    && \
-    # Activate ipywidgets extension in the environment that runs the notebook server
-    jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
-    fix-permissions "/home/${NB_USER}"
+    'xlrd'
+
+# Activate ipywidgets extension in the environment that runs the notebook server
+ RUN jupyter nbextension enable --py widgetsnbextension --sys-prefix
+ RUN fix-permissions "/home/${NB_USER}"
 
 
 # Import matplotlib the first time to build the font cache.
