@@ -27,7 +27,8 @@ RUN pip install --extra-index-url=https://www.piwheels.org/simple \
     'dill' \
     'h5py' \
     'ipywidgets' \
-    'ipympl'\
+    'ipympl' \
+    'plotly' \
     'tables' \
     'seaborn' \
     'statsmodels' \
@@ -35,8 +36,8 @@ RUN pip install --extra-index-url=https://www.piwheels.org/simple \
     'xlrd'
 
 # Activate ipywidgets extension in the environment that runs the notebook server
- RUN jupyter nbextension enable --py widgetsnbextension --sys-prefix
- RUN fix-permissions "/home/${NB_USER}"
+#RUN jupyter nbextension enable --py widgetsnbextension --sys-prefix
+#RUN fix-permissions "/home/${NB_USER}"
 
 
 # Import matplotlib the first time to build the font cache.
