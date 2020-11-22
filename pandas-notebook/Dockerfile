@@ -12,7 +12,7 @@ USER root
 RUN apt-get update && \
     apt-get install -y --no-install-recommends ffmpeg dvipng cm-super && \
     # Pillow support?
-    apt-get install -y libjpeg-dev zlib1g-dev libfreetype6-dev  libopenjp2-7 libtiff5 && \
+    apt-get install -y  libopenblas-dev libblis2-serial libjpeg-dev zlib1g-dev libfreetype6-dev  libopenjp2-7 libtiff5 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Python 3 packages
@@ -31,14 +31,12 @@ RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \
     'xlrd'
 
 # Activate ipywidgets extension in the environment that runs the notebook server
-#RUN jupyter nbextension enable --py widgetsnbextension --sys-prefix
-#RUN fix-permissions "/home/${NB_USER}"
+RUN   fix-permissions "/home/${NB_USER}" && jupyter nbextension enable --py widgetsnbextension --user
 
 
 # Import matplotlib the first time to build the font cache.
-#ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
-
-#RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot"
+ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
+RUN bash -c 'MPLBACKEND=Agg python -c "import matplotlib.pyplot"'
 
 USER $NB_UID
 
