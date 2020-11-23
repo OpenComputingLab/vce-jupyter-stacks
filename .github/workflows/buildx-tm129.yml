@@ -65,5 +65,7 @@ jobs:
             ./tm129-notebook
             --push
 
+      - name: Run  manifest
+        run: |
           docker manifest create ouvocl/vce-tm129:latest --amend ouvocl/vce-tm129:armv7l-${GITHUB_SHA::7} --amend ouvocl/vce-tm129:x86_64-${GITHUB_SHA::7}
           docker manifest push ouvocl/vce-tm129:latest
