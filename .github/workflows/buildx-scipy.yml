@@ -35,7 +35,7 @@ jobs:
       - name: Run Buildx
         run: |
           docker buildx build \
-            --platform linux/amd64,linux/arm/v7 \
+            --platform linux/amd64,linux/arm/v7,linux/arm64 \
             -t ouvocl/vce-jupyter-scipy:${GITHUB_SHA::7} \
             ./scipy-notebook
       - name: Login to DockerHub
@@ -45,12 +45,12 @@ jobs:
       - name: Run Buildx
         run: |
           docker buildx build \
-            --platform linux/amd64,linux/arm/v7 \
+            --platform linux/amd64,linux/arm/v7,linux/arm64 \
             -t ouvocl/vce-jupyter-scipy:${GITHUB_SHA::7} \
             ./scipy-notebook \
             --push
           docker buildx build \
-            --platform linux/amd64,linux/arm/v7 \
+            --platform linux/amd64,linux/arm/v7,linux/arm64 \
             -t ouvocl/vce-jupyter-scipy:latest \
             ./scipy-notebook \
             --push
