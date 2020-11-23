@@ -35,8 +35,14 @@ jobs:
       - name: Run Buildx
         run: |
           docker buildx build \
-            --platform linux/amd64,linux/arm/v7 \
-            -t ouvocl/vce-tm129:${GITHUB_SHA::7} \
+            --platform linux/amd64 \
+            -t ouvocl/vce-tm129:x86_64-${GITHUB_SHA::7} \
+            --build-arg PROCESSOR_FAMILY=x86_64 \
+            ./tm129-notebook
+          docker buildx build \
+            --platform linux/arm/v7 \
+            -t ouvocl/vce-tm129:armv7l-${GITHUB_SHA::7} \
+            --build-arg PROCESSOR_FAMILY=armv7l \
             ./tm129-notebook
       - name: Login to DockerHub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
@@ -45,12 +51,16 @@ jobs:
       - name: Run Buildx
         run: |
           docker buildx build \
-            --platform linux/amd64,linux/arm/v7 \
-            -t ouvocl/vce-tm129:${GITHUB_SHA::7} \
+            --platform linux/amd64 \
+            -t ouvocl/vce-tm129:x86_64-${GITHUB_SHA::7} \
+            --build-arg --build-arg PROCESSOR_FAMILY=x86_64 \
             ./tm129-notebook \
             --push
           docker buildx build \
-            --platform linux/amd64,linux/arm/v7 \
-            -t ouvocl/vce-tm129:latest \
+            --platform linux/arm/v7 \
+            -t ouvocl/vce-tm129:armv7l-${GITHUB_SHA::7} \
+            --build-arg PROCESSOR_FAMILY=armv7l \
             ./tm129-notebook \
             --push
+          docker manifest create ouvocl/vce-tm129:latest ouvocl/vce-tm129:armv7l-${GITHUB_SHA::7} ouvocl/vce-tm129:x86_64-${GITHUB_SHA::7}
+          docker manifest push ouvocl/vce-tm129:latest
