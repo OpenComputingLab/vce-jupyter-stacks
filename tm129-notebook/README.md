@@ -9,6 +9,10 @@ Notebook environment for the Open University module [TM129 *Technologies in prac
 
 Published on DockerHub as: [`ouvocl/vce-tm129`](https://hub.docker.com/r/ouvocl/vce-tm129)
 
+The notebook is token protected. To login, use the token: `letmein`
+
+Start the container with the flag `-e JUPYTER_TOKEN="my-new-token"` to specify your own token.
+
 ## Currently incomplete
 
 - lacking `postBuild` environment configuration steps
