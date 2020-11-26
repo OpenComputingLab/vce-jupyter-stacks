@@ -1,0 +1,106 @@
+# ----- TM129 repo2docker: postBuild ---
+
+# Copy in a datestamp for start of postBuild activity
+echo "postBuild start time: $(date)" >> $CONDA_DIR/tm129_image_build_time.txt
+
+
+# Install external requirements
+# Raw build: https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite/tools/pip_package
+# Downloads: https://www.tensorflow.org/lite/guide/python
+#https://github.com/google-coral/pycoral/releases/download/release-frogfish/tflite_runtime-2.5.0-cp38-cp38-linux_armv7l.whl
+#pip install https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp37-cp37m-linux_x86_64.whl
+
+# Rule based systems
+pip install git+https://github.com/innovationOUtside/durable_rules_magic.git
+
+
+#####
+# Utilities
+pip install git+https://github.com/innovationOUtside/nb_cell_diff.git
+pip install git+https://github.com/innovationOUtside/nb_cell_dialog.git
+#Not yet packaged properly:
+#git+https://github.com/innovationOUtside/nb_extension_twoCol.git
+
+
+# Search
+pip install git+https://github.com/conery/nbscan.git
+pip install git+https://github.com/ouseful-testing/nbsearch.git
+
+#Simulator
+#git+https://github.com/innovationOUtside/nbev3devsim.git
+
+# Neural
+pip install --no-cache --extra-index-url=https://www.piwheels.org/simple git+https://github.com/ouseful-PR/Hand-Written-Digit-Recognition.git
+pip install --no-cache --extra-index-url=https://www.piwheels.org/simple git+https://github.com/innovationOUtside/nb_tensorflow_playground_serverproxy.git
+pip install --no-cache --extra-index-url=https://www.piwheels.org/simple git+https://github.com/innovationOUtside/nb_tensorspace_server_proxy.git
+pip install --no-cache --extra-index-url=https://www.piwheels.org/simple git+https://github.com/innovationOUtside/serverproxy_convnet_mnist.git
+pip install --no-cache --extra-index-url=https://www.piwheels.org/simple git+https://github.com/innovationOUtside/serverproxy_tfjs_demos.git
+
+# Diagramming
+#pip install git+https://github.com/innovationOUtside/flowchart_js_jp_proxy_widget.git
+
+
+# Install and enable extensions
+
+INSTALL_PREFIX=user #sys-prefix  #user
+
+# Stash notebook files in the $CONDA_DIR so we can retrieve them
+#mkdir -p ${CONDA_DIR}/workfiles/recover
+#cp -r .jupyter ${CONDA_DIR}/workfiles/recover
+#cp -r .ipython ${CONDA_DIR}/workfiles/recover
+#cp -r content ${CONDA_DIR}/workfiles/recover
+
+
+
+## nbextensions
+### The official unofficial extensions distribution
+jupyter contrib nbextension install --$INSTALL_PREFIX
+jupyter nbextensions_configurator enable --$INSTALL_PREFIX
+## By default, the majority of extensions are disabled by default
+### Nicer code warning / error message display
+jupyter nbextension enable skip-traceback/main --$INSTALL_PREFIX
+### Collapsible headings can help in notebook user interaction design
+jupyter nbextension enable collapsible_headings/main --$INSTALL_PREFIX
+### Codefolding may be useful BUT it interferes with nbtutor...
+#jupyter nbextension enable codefolding/main --$INSTALL_PREFIX
+### Allow users to highlight elements
+jupyter nbextension enable highlighter/highlighter --$INSTALL_PREFIX
+## Spellchecker extension
+jupyter nbextension enable spellchecker/main --$INSTALL_PREFIX
+## nbgitpuller
+### This allows us to easily pull in files from Github
+jupyter serverextension enable nbgitpuller --$INSTALL_PREFIX
+
+## Accessibility toolbar
+### This seems to be a bit buggy at the moment, but useful nevertheless
+git clone https://github.com/uclixnjupyternbaccessibility/accessibility_toolbar.git
+jupyter nbextension install --$INSTALL_PREFIX accessibility_toolbar
+
+### Tidy up
+rm -r accessibility_toolbar
+#jupyter nbextension enable accessibility_toolbar/main --$INSTALL_PREFIX
+
+## nbzip
+### Zip and export all notebooks
+jupyter serverextension enable --py nbzip --$INSTALL_PREFIX
+jupyter nbextension install --py nbzip --$INSTALL_PREFIX
+jupyter nbextension enable --py nbzip --$INSTALL_PREFIX
+
+## nbtutor
+jupyter nbextension install --py nbtutor --user
+jupyter nbextension enable --py nbtutor --user
+
+## cell_execution_status
+### Cell status indicators.
+jupyter nbextension install cell_execution_status --$INSTALL_PREFIX
+jupyter nbextension enable cell_execution_status/index --$INSTALL_PREFIX
+
+## WYSIWYG notebook markdown editor
+jupyter nbextension install --py jupyter_wysiwyg  --$INSTALL_PREFIX
+
+
+# Copy in a datestamp of end of build - checks we got this far as well!
+echo "postBuild end time: $(date)" >> /opt/tm129_image_build_time.txt
+
+# GDAL / osgeo - Lidar mapping
+#conda install -y -c conda-forge gdal

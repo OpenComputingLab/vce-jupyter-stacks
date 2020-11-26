@@ -3,7 +3,7 @@ FROM ouvocl/vce-jupyter-scipy
 USER root
 COPY ./wheelhouse/ ./wheelhouse/
 # Save the effort of building wheels
-RUN echo SQLAlchemy PyYAML durable-rules lxml aiohttp multidict yarl psutil | xargs -n 1 pip install --no-cache --find-links=./wheelhouse && rm -r ./wheelhouse
+RUN echo SQLAlchemy PyYAML durable-rules lxml yarl multidict aiohttp psutil tflite_runtime | xargs -n 1 pip install --no-cache --find-links=./wheelhouse && rm -r ./wheelhouse
 
 USER $NB_USER
 
@@ -12,7 +12,7 @@ RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple  b
 
 # x86_64, armv7l
 ARG PROCESSOR_FAMILY=x86_64
-ARG NODE_VERSION=v15.2.1
+ARG NODE_VERSION=v15.3.0
 
 USER root
 
@@ -26,3 +26,8 @@ USER $NB_USER
 
 #RUN pip3 wheel --wheel-dir=./wheelhouse scikit-learn && pip3 install --no-index --find-links=./wheelhouse scikit-learn
 RUN pip3 install --no-cache https://github.com/AaronWatters/jp_proxy_widget/archive/master.zip && pip3 install --no-cache --upgrade tqdm && pip3 install --no-deps nbev3devsim && pip3 install --extra-index-url=https://www.piwheels.org/simple --no-cache ou-tm129-py
+
+USER root
+COPY postBuild ./postBuild
+RUN chmod +x ./postBuild && ./postBuild && rm postBuild
+USER $NB_USER
