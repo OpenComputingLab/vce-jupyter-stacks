@@ -32,7 +32,7 @@ USER $NB_USER
 
 #RUN pip3 wheel --wheel-dir=./wheelhouse scikit-learn && pip3 install --no-index --find-links=./wheelhouse scikit-learn
 COPY jp_proxy_widget-master.zip ./jp_proxy_widget-master.zip
-RUN pip wheel --wheel-dir=./wheelhouse ./jp_proxy_widget-master.zip &&  pip3 install --find-links=./wheelhouse --user --no-cache jp_proxy_widget  && pip3 install --user --no-cache --upgrade tqdm && pip3 install --user --no-deps nbev3devsim && pip3 install --user --extra-index-url=https://www.piwheels.org/simple --no-cache ou-tm129-py
+RUN pip3 wheel --wheel-dir=./wheelhouse ./jp_proxy_widget-master.zip &&  pip3 install --find-links=./wheelhouse --user --no-cache jp_proxy_widget  && pip3 install --user --no-cache --upgrade tqdm && pip3 install --user --no-deps nbev3devsim && pip3 install --user --extra-index-url=https://www.piwheels.org/simple --no-cache ou-tm129-py
 #RUN pip3 install --extra-index-url=https://www.piwheels.org/simple  --user --no-cache ./jp_proxy_widget-master.zip   && pip3 install --user --no-cache --upgrade tqdm && pip3 install --user --no-deps nbev3devsim && pip3 install --user --extra-index-url=https://www.piwheels.org/simple --no-cache ou-tm129-py
 
 USER root
