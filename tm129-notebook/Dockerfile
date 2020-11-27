@@ -16,7 +16,13 @@ ARG NODE_VERSION=v15.3.0
 
 USER root
 
-RUN wget https://nodejs.org/dist/latest-v15.x/node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz && tar xvzf node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz  &&  mkdir -p /opt/node && cp -r node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}/* /opt/node && ln -s /opt/node/bin/node /usr/bin/node && ln -s /opt/node/lib/node /usr/lib/node && ln -s /opt/node/bin/npm /usr/bin/npm && ln -s /opt/node/bin/node-waf /usr/bin/node-waf && rm node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz
+RUN wget https://nodejs.org/dist/latest-v15.x/node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz && \
+    tar xvzf node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz  &&  \
+    mkdir -p /opt/node && cp -r node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}/* /opt/node && \
+    ln -s /opt/node/bin/node /usr/bin/node && ln -s /opt/node/lib/node /usr/lib/node && \
+    ln -s /opt/node/bin/npm /usr/bin/npm && ln -s /opt/node/bin/node-waf /usr/bin/node-waf && \
+    rm node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz # && rm -r node-v15.3.0-linux-${PROCESSOR_FAMILY}
+
 
 #RUN apt-get install -y gfortran libatlas-base-dev libopenblas-dev liblapack-dev
 
@@ -25,9 +31,16 @@ USER $NB_USER
 #RUN pip3 install --extra-index-url=https://www.piwheels.org/simple scipy
 
 #RUN pip3 wheel --wheel-dir=./wheelhouse scikit-learn && pip3 install --no-index --find-links=./wheelhouse scikit-learn
-RUN pip3 install --no-cache https://github.com/AaronWatters/jp_proxy_widget/archive/master.zip && pip3 install --no-cache --upgrade tqdm && pip3 install --no-deps nbev3devsim && pip3 install --extra-index-url=https://www.piwheels.org/simple --no-cache ou-tm129-py
+COPY jp_proxy_widget-master.zip ./jp_proxy_widget-master.zip
+RUN pip wheel --wheel-dir=./wheelhouse ./jp_proxy_widget-master.zip &&  pip3 install --find-links=./wheelhouse --user --no-cache jp_proxy_widget  && pip3 install --user --no-cache --upgrade tqdm && pip3 install --user --no-deps nbev3devsim && pip3 install --user --extra-index-url=https://www.piwheels.org/simple --no-cache ou-tm129-py
+#RUN pip3 install --extra-index-url=https://www.piwheels.org/simple  --user --no-cache ./jp_proxy_widget-master.zip   && pip3 install --user --no-cache --upgrade tqdm && pip3 install --user --no-deps nbev3devsim && pip3 install --user --extra-index-url=https://www.piwheels.org/simple --no-cache ou-tm129-py
 
 USER root
 COPY postBuild ./postBuild
-RUN chmod +x ./postBuild && ./postBuild && rm postBuild
+RUN chmod ugo+x ./postBuild
+USER $NB_USER
+RUN ./postBuild 
+USER root
+RUN rm postBuild 
+RUN rm jp_proxy_widget-master.zip
 USER $NB_USER
