@@ -1,4 +1,4 @@
-name: buildx-pandas
+name: buildx-vce-base
 # Via: https://www.padok.fr/en/blog/multi-architectures-docker-iot
 on:
   release:
