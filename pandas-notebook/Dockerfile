@@ -18,7 +18,7 @@ RUN apt-get update && \
 # Install Python 3 packages
 COPY ./wheelhouse/ ./wheelhouse
 # If we add wheels for every platfrom, we can add --no-index
-RUN echo kiwisolver matplotlib Pillow numpy pandas pyzmq PyYAML | xargs -n 1 pip install --no-cache --find-links=./wheelhouse && rm -r ./wheelhouse
+RUN echo kiwisolver matplotlib Pillow numpy pandas lxml pyzmq PyYAML | xargs -n 1 pip install --no-cache --find-links=./wheelhouse && rm -r ./wheelhouse
 
 USER $NB_UID
 
