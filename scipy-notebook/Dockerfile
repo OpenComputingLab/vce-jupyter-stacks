@@ -15,6 +15,7 @@ RUN apt-get update && \
 
 # Install Python 3 packages
 COPY ./wheelhouse/ ./wheelhouse/
+# If we add wheels for every platfrom, we can add --no-index
 RUN echo scipy scikit_learn numexpr h5py tables statsmodels | xargs -n 1 pip install --no-cache --find-links=./wheelhouse && rm -r ./wheelhouse
 
 USER $NB_UID
