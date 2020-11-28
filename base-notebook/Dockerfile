@@ -78,7 +78,7 @@ WORKDIR $HOME
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
 COPY ./wheelhouse/ /home/$NB_USER/wheelhouse/
-RUN echo pyzmq | xargs -n 1 pip install --find-links=/home/$NB_USER/wheelhouse && \
+RUN echo pyzmq | xargs -n 1 pip install --no-index --find-links=/home/$NB_USER/wheelhouse && \
     pip install --quiet --upgrade jupyter && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions /home/$NB_USER && \
