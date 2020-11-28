@@ -9,7 +9,8 @@ USER root
 # Install Python 3 packages
 COPY ./wheelhouse/ ./wheelhouse
 # If we add wheels for every platfrom, we can add --no-index
-RUN echo aiohttp kiwisolver lxml PyYAML yarl matplotlib| xargs -n 1 pip install --no-cache --find-links=./wheelhouse && rm -r ./wheelhouse
+# What needs numpy & matplotlib?
+RUN echo aiohttp kiwisolver lxml PyYAML yarl numpy matplotlib| xargs -n 1 pip install --no-cache --find-links=./wheelhouse && rm -r ./wheelhouse
 
 
 RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \
