@@ -42,7 +42,7 @@ pip install --no-cache --extra-index-url=https://www.piwheels.org/simple git+htt
 
 # Install and enable extensions
 
-INSTALL_PREFIX=user #sys-prefix  #user
+INSTALL_PREFIX=sys-prefix  #user
 
 # Stash notebook files in the $CONDA_DIR so we can retrieve them
 #mkdir -p ${CONDA_DIR}/workfiles/recover
