@@ -14,7 +14,7 @@ RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple  b
 
 # x86_64, armv7l
 ARG PROCESSOR_FAMILY=x86_64
-ARG NODE_VERSION=v15.3.0
+ARG NODE_VERSION=v15.4.0
 
 USER root
 
@@ -23,7 +23,7 @@ RUN wget https://nodejs.org/dist/latest-v15.x/node-${NODE_VERSION}-linux-${PROCE
     mkdir -p /opt/node && cp -r node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}/* /opt/node && \
     ln -s /opt/node/bin/node /usr/bin/node && ln -s /opt/node/lib/node /usr/lib/node && \
     ln -s /opt/node/bin/npm /usr/bin/npm && ln -s /opt/node/bin/node-waf /usr/bin/node-waf && \
-    rm node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz # && rm -r node-v15.3.0-linux-${PROCESSOR_FAMILY}
+    rm node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz # && rm -r node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}
 
 
 #RUN apt-get install -y gfortran libatlas-base-dev libopenblas-dev liblapack-dev
