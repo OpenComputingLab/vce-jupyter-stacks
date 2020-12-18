@@ -50,7 +50,8 @@ jobs:
             --platform linux/arm64 \
             -t ouvocl/vce-tm129-64:aarch64-${GITHUB_SHA::7} \
             --build-arg PROCESSOR_FAMILY=arm64 \
-            ./tm129-notebook
+            ./tm129-notebook \
+            --push
           
       - name: Run  manifest
         run: |
