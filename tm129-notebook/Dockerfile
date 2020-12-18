@@ -44,5 +44,5 @@ RUN chmod ugo+x ./postBuild
 RUN ./postBuild 
 USER root
 RUN rm postBuild 
-RUN rm jp_proxy_widget-master.zip
+#RUN rm jp_proxy_widget-master.zip
 USER $NB_USER
