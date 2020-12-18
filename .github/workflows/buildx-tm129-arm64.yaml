@@ -36,7 +36,7 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/arm64 \
-            -t ouvocl/vce-tm129:aarch64-${GITHUB_SHA::7} \
+            -t ouvocl/vce-tm129-64:aarch64-${GITHUB_SHA::7} \
             --build-arg PROCESSOR_FAMILY=arm64 \
             ./tm129-notebook
       
@@ -48,12 +48,12 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/arm64 \
-            -t ouvocl/vce-tm129:aarch64-${GITHUB_SHA::7} \
+            -t ouvocl/vce-tm129-64:aarch64-${GITHUB_SHA::7} \
             --build-arg PROCESSOR_FAMILY=arm64 \
             ./tm129-notebook
           
       - name: Run  manifest
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
-          docker manifest create ouvocl/vce-tm129-64:latest --amend ouvocl/vce-tm129:aarch64-${GITHUB_SHA::7}
+          docker manifest create ouvocl/vce-tm129-64:latest --amend ouvocl/vce-tm129-64:aarch64-${GITHUB_SHA::7}
           docker manifest push ouvocl/vce-tm129-64:latest
