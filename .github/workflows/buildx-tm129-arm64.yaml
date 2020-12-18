@@ -55,5 +55,5 @@ jobs:
       - name: Run  manifest
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
-          docker manifest create ouvocl/vce-tm129_64:latest --amend ouvocl/vce-tm129:aarch64-${GITHUB_SHA::7}
-          docker manifest push ouvocl/vce-tm129_64:latest
+          docker manifest create ouvocl/vce-tm129-64:latest --amend ouvocl/vce-tm129:aarch64-${GITHUB_SHA::7}
+          docker manifest push ouvocl/vce-tm129-64:latest
