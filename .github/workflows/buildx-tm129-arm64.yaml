@@ -1,4 +1,4 @@
-name: buildx-tm129
+name: buildx-tm129-arm64
 # Via: https://www.padok.fr/en/blog/multi-architectures-docker-iot
 on:
   release:
