@@ -49,11 +49,11 @@ jobs:
             --platform linux/amd64,linux/arm/v7,linux/arm64 \
             -t ouvocl/vce-pandas:${GITHUB_SHA::7} \
             --build-arg BASE_IMAGE=ouvocl/vce-jupyter-pandas \
-            ./pandas-notebook \
+            ./vce-notebook \
             --push
           docker buildx build \
             --platform linux/amd64,linux/arm/v7,linux/arm64 \
             -t ouvocl/vce-pandas:latest \
             --build-arg BASE_IMAGE=ouvocl/vce-jupyter-pandas \
-            ./pandas-notebook \
+            ./vce-notebook \
             --push
