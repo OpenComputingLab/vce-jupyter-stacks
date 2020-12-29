@@ -36,13 +36,18 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/amd64 \
-            -t ouvocl/vce-tm129:x86_64-${GITHUB_SHA::7} \
+            -t ouvocl/base-tm129:x86_64-${GITHUB_SHA::7} \
             --build-arg PROCESSOR_FAMILY=x64 \
             ./tm129-notebook
           docker buildx build \
             --platform linux/arm/v7 \
-            -t ouvocl/vce-tm129:armv7l-${GITHUB_SHA::7} \
+            -t ouvocl/base-tm129:armv7l-${GITHUB_SHA::7} \
             --build-arg PROCESSOR_FAMILY=armv7l \
+            ./tm129-notebook
+          docker buildx build \
+            --platform linux/arm64 \
+            -t ouvocl/base-tm129:aarch64-${GITHUB_SHA::7} \
+            --build-arg PROCESSOR_FAMILY=arm64 \
             ./tm129-notebook
       
       - name: Login to DockerHub
@@ -53,21 +58,21 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/amd64 \
-            -t ouvocl/vce-tm129:x86_64-${GITHUB_SHA::7} \
+            -t ouvocl/base-tm129:x86_64-${GITHUB_SHA::7} \
             --build-arg PROCESSOR_FAMILY=x64 \
             ./tm129-notebook \
             --push
           
           docker buildx build \
             --platform linux/arm/v7 \
-            -t ouvocl/vce-tm129:armv7l-${GITHUB_SHA::7} \
+            -t ouvocl/base-tm129:armv7l-${GITHUB_SHA::7} \
             --build-arg PROCESSOR_FAMILY=armv7l \
             ./tm129-notebook \
             --push
              
           docker buildx build \
             --platform linux/arm64 \
-            -t ouvocl/vce-tm129:aarch64-${GITHUB_SHA::7} \
+            -t ouvocl/base-tm129:aarch64-${GITHUB_SHA::7} \
             --build-arg PROCESSOR_FAMILY=arm64 \
             ./tm129-notebook \
             --push
@@ -75,5 +80,5 @@ jobs:
       - name: Run  manifest
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
-          docker manifest create ouvocl/vce-tm129:latest --amend ouvocl/vce-tm129:aarch64-${GITHUB_SHA::7} --amend ouvocl/vce-tm129:armv7l-${GITHUB_SHA::7} --amend ouvocl/vce-tm129:x86_64-${GITHUB_SHA::7}
-          docker manifest push ouvocl/vce-tm129:latest
+          docker manifest create ouvocl/base-tm129:latest --amend ouvocl/base-tm129:aarch64-${GITHUB_SHA::7} --amend ouvocl/base-tm129:armv7l-${GITHUB_SHA::7} --amend ouvocl/base-tm129:x86_64-${GITHUB_SHA::7}
+          docker manifest push ouvocl/base-tm129:latest
