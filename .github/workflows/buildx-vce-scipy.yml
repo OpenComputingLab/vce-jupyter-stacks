@@ -48,10 +48,12 @@ jobs:
           docker buildx build \
             --platform linux/amd64,linux/arm/v7,linux/arm64 \
             -t ouvocl/vce-scipy:${GITHUB_SHA::7} \
-            ./scipy-notebook \
+            --build-arg BASE_IMAGE=ouvocl/vce-jupyter-scipy \
+            ./vce-notebook \
             --push
           docker buildx build \
             --platform linux/amd64,linux/arm/v7,linux/arm64 \
             -t ouvocl/vce-scipy:latest \
-            ./scipy-notebook \
+            --build-arg BASE_IMAGE=ouvocl/vce-jupyter-scipy \
+            ./vce-notebook \
             --push
