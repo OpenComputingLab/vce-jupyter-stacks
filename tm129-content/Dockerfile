@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:experimental
-ARG BASE_CONTAINER=ouvocl/vce-notebook
+ARG BASE_CONTAINER=ouvocl/vce-tm129
 FROM $BASE_CONTAINER
 
 USER root
