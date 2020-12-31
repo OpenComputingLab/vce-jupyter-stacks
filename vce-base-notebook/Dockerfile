@@ -1,4 +1,5 @@
-ARG BASE_IMAGE=ouvocl/vce-jupyter-base
+# syntax = docker/dockerfile:experimental
+ARG BASE_IMAGE=ouvocl/jupyter-base
 FROM $BASE_IMAGE
 
 LABEL maintainer="Tony Hirst <tony.hirst@open.ac.uk>"
@@ -7,10 +8,10 @@ USER root
 
 
 # Install Python 3 packages
-COPY ./wheelhouse/ ./wheelhouse
+#COPY ./wheelhouse/ ./wheelhouse
 # If we add wheels for every platfrom, we can add --no-index
 # What needs numpy & matplotlib?
-RUN echo multidict aiohttp kiwisolver lxml PyYAML yarl Pillow numpy matplotlib psutil SQLAlchemy | xargs -n 1 pip install --no-cache --find-links=./wheelhouse && rm -r ./wheelhouse
+RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo multidict aiohttp kiwisolver lxml PyYAML yarl Pillow numpy matplotlib psutil SQLAlchemy | xargs -n 1 pip install --no-cache --find-links=./wheelhouse && rm -r ./wheelhouse
 
 
 RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \

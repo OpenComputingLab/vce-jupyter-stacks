@@ -31,7 +31,6 @@ jobs:
         run: echo ${{ steps.buildx.outputs.platforms }}
 
       # Build the images, without pushing
-      # When I can build linux/arm64 wheels, add that to build
       - name: Run Buildx
         run: |
           docker buildx build \
