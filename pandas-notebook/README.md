@@ -7,7 +7,9 @@ Jupyter kernels: ![](https://img.shields.io/badge/python-3.8-blue)
 
 Jupyter notebook environment with `pandas` support.
 
-Published on DockerHub as: [`ouvocl/vce-jupyter-pandas`](https://hub.docker.com/r/ouvocl/vce-jupyter-pandas)
+Published on DockerHub as: [`ouvocl/jupyter-pandas`](https://hub.docker.com/r/ouvocl/jupyter-pandas)
+
+There is also a version with a customised Jupyter notebook environment as: [`ouvocl/vce-pandas`](https://hub.docker.com/r/ouvocl/vce-pandas)
 
 The notebook is token protected. To login, use the token: `letmein`
 
