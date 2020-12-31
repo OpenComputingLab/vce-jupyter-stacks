@@ -31,15 +31,14 @@ RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \
     'widgetsnbextension'\
     'xlrd'
 
-# Activate ipywidgets extension in the environment that runs the notebook server
-RUN jupyter nbextension enable --py widgetsnbextension --user
-
+USER root
 # Import matplotlib the first time to build the font cache.
 ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
 RUN bash -c 'MPLBACKEND=Agg python -c "import matplotlib.pyplot"'
 
-USER root
-RUN fix-permissions "/home/${NB_USER}"
+# Activate ipywidgets extension in the environment that runs the notebook server
+RUN fix-permissions "/home/${NB_USER}" && jupyter nbextension enable --py widgetsnbextension --user
+
 
 USER $NB_UID
 
