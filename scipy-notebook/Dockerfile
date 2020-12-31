@@ -1,7 +1,7 @@
 # Originally copyright (c) Jupyter Development Team.
 # Modified by Tony Hirst
 # Distributed under the terms of the Modified BSD License.
-ARG BASE_CONTAINER=ouvocl/vce-jupyter-pandas
+ARG BASE_CONTAINER=ouvocl/jupyter-pandas
 FROM $BASE_CONTAINER
 
 LABEL maintainer="Tony Hirst <tony.hirst@open.ac.uk>"
