@@ -1,4 +1,4 @@
-name: buildx-tm129-arm64
+name: buildx-vce-tm129
 # Via: https://www.padok.fr/en/blog/multi-architectures-docker-iot
 on:
   release:
@@ -15,6 +15,8 @@ on:
 jobs:
   buildx:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_CLI_EXPERIMENTAL: "enabled"
     steps:
       # Get the repositery's code
       - name: Checkout
@@ -35,8 +37,18 @@ jobs:
       - name: Run Buildx
         run: |
           docker buildx build \
+            --platform linux/amd64 \
+            -t ouvocl/vce-tm129:x86_64-${GITHUB_SHA::7} \
+            --build-arg PROCESSOR_FAMILY=x64 \
+            ./tm129-notebook
+          docker buildx build \
+            --platform linux/arm/v7 \
+            -t ouvocl/vce-tm129:armv7l-${GITHUB_SHA::7} \
+            --build-arg PROCESSOR_FAMILY=armv7l \
+            ./tm129-notebook
+          docker buildx build \
             --platform linux/arm64 \
-            -t ouvocl/vce-tm129-64:aarch64-${GITHUB_SHA::7} \
+            -t ouvocl/vce-tm129:aarch64-${GITHUB_SHA::7} \
             --build-arg PROCESSOR_FAMILY=arm64 \
             ./tm129-notebook
       
@@ -47,14 +59,28 @@ jobs:
       - name: Run Buildx
         run: |
           docker buildx build \
-            --platform linux/arm64 \
-            -t ouvocl/vce-tm129-64:aarch64-${GITHUB_SHA::7} \
-            --build-arg PROCESSOR_FAMILY=arm64 \
+            --platform linux/amd64 \
+            -t ouvocl/vce-tm129:x86_64-${GITHUB_SHA::7} \
+            --build-arg PROCESSOR_FAMILY=x64 \
             ./tm129-notebook \
             --push
           
+          docker buildx build \
+            --platform linux/arm/v7 \
+            -t ouvocl/vce-tm129:armv7l-${GITHUB_SHA::7} \
+            --build-arg PROCESSOR_FAMILY=armv7l \
+            ./tm129-notebook \
+            --push
+             
+          docker buildx build \
+            --platform linux/arm64 \
+            -t ouvocl/vce-tm129:aarch64-${GITHUB_SHA::7} \
+            --build-arg PROCESSOR_FAMILY=arm64 \
+            ./tm129-notebook \
+            --push
+            
       - name: Run  manifest
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
-          docker manifest create ouvocl/vce-tm129-64:latest --amend ouvocl/vce-tm129-64:aarch64-${GITHUB_SHA::7}
-          docker manifest push ouvocl/vce-tm129-64:latest
+          docker manifest create ouvocl/vce-tm129:latest --amend ouvocl/vce-tm129:aarch64-${GITHUB_SHA::7} --amend ouvocl/vce-tm129:armv7l-${GITHUB_SHA::7} --amend ouvocl/vce-tm129:x86_64-${GITHUB_SHA::7}
+          docker manifest push ouvocl/vce-tm129:latest

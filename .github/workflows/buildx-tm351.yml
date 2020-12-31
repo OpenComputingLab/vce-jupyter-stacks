@@ -15,6 +15,8 @@ on:
 jobs:
   buildx:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_CLI_EXPERIMENTAL: "enabled"
     steps:
       # Get the repositery's code
       - name: Checkout

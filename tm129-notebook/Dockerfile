@@ -1,25 +1,28 @@
-FROM ouvocl/vce-jupyter-scipy
+# syntax = docker/dockerfile:experimental
+ARG BASE_IMAGE=ouvocl/vce-scipy
+FROM $BASE_IMAGE
 
 USER root
-COPY ./wheelhouse/ ./wheelhouse/
+#COPY ./wheelhouse/ ./wheelhouse/
 # Save the effort of building wheels
-RUN echo jp_proxy_widget | xargs -n 1 pip install --no-cache --find-links=./wheelhouse
+RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo jp_proxy_widget | xargs -n 1 pip install --no-cache --find-links=./wheelhouse
 # If we add wheels for every platfrom, we can add --no-index
-RUN echo SQLAlchemy PyYAML durable-rules lxml yarl multidict aiohttp psutil tflite_runtime | xargs -n 1 pip install --no-cache --find-links=./wheelhouse && rm -r ./wheelhouse
+RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo SQLAlchemy PyYAML durable-rules lxml yarl multidict aiohttp psutil tflite_runtime | xargs -n 1 pip install --no-cache --find-links=./wheelhouse
 
 USER $NB_USER
 
 RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple myst-nb jupytext
-RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple  blockdiag blockdiagMagic
+RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple blockdiag blockdiagMagic
 RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple ou-tm129-py
 
-# x86_64, armv7l
+# x86_64, armv7l,
 ARG PROCESSOR_FAMILY=x86_64
 ARG NODE_VERSION=v15.5.0
 
+
 USER root
 
-RUN wget https://nodejs.org/dist/latest-v15.x/node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz && \
+RUN wget https://nodejs.org/dist/${NODE_LATEST}/node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz && \
     tar xvzf node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz  &&  \
     mkdir -p /opt/node && cp -r node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}/* /opt/node && \
     ln -s /opt/node/bin/node /usr/bin/node && ln -s /opt/node/lib/node /usr/lib/node && \
@@ -42,8 +45,8 @@ USER root
 COPY postBuild ./postBuild
 RUN chmod ugo+x ./postBuild
 #USER $NB_USER
-RUN ./postBuild 
+RUN ./postBuild
 USER root
-RUN rm postBuild 
+RUN rm postBuild
 #RUN rm jp_proxy_widget-master.zip
 USER $NB_USER
