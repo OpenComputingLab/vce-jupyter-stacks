@@ -1,8 +1,8 @@
 # Originally copyright (c) Jupyter Development Team.
 # Modified by Tony Hirst
 # Distributed under the terms of the Modified BSD License.
-ARG BASE_CONTAINER=ouvocl/jupyter-base
-FROM $BASE_CONTAINER
+ARG BASE_IMAGE=ouvocl/jupyter-base
+FROM $BASE_IMAGE
 
 LABEL maintainer="Tony Hirst <tony.hirst@open.ac.uk>"
 

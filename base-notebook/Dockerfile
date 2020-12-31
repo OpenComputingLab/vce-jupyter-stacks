@@ -4,10 +4,10 @@
 # Ubuntu 20.04 (focal)
 # https://hub.docker.com/_/ubuntu/?tab=tags&name=focal
 # OS/ARCH: linux/amd64, linux/arm/v7
-ARG ROOT_CONTAINER=ouvocl/base-py38
-ARG BASE_CONTAINER=$ROOT_CONTAINER
+ARG ROOT_IMAGE=ouvocl/base-py38
+ARG BASE_IMAGE=$ROOT_IMAGE
 
-FROM $BASE_CONTAINER
+FROM $BASE_IMAGE
 
 LABEL maintainer="Tony Hirst <tony.hirst@open.ac.uk>"
 ARG NB_USER="jovyan"

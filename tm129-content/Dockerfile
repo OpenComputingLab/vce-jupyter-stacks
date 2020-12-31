@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:experimental
-ARG BASE_CONTAINER=ouvocl/vce-tm129
-FROM $BASE_CONTAINER
+ARG BASE_IMAGE=ouvocl/vce-tm129
+FROM $BASE_IMAGE
 
 USER root
 WORKDIR $HOME
