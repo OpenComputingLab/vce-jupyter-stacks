@@ -11,6 +11,7 @@ USER $NB_USER
 
 RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple myst-nb jupytext
 RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple  blockdiag blockdiagMagic
+RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple ou-tm129-py
 
 # x86_64, armv7l
 ARG PROCESSOR_FAMILY=x86_64
