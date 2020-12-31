@@ -7,7 +7,7 @@ Jupyter kernels: ![](https://img.shields.io/badge/python-3.8-blue)
 
 Basic Jupyter notebook environment.
 
-Published on DockerHub as: [`ouvocl/vce-jupyter-base`](https://hub.docker.com/r/ouvocl/vce-jupyter-base)
+Published on DockerHub as: [`ouvocl/jupyter-base`](https://hub.docker.com/r/ouvocl/jupyter-base)
 
 The notebook is token protected. To login, use the token: `letmein`
 
