@@ -9,8 +9,9 @@ USER root
 
 # Install Python 3 packages
 #COPY ./wheelhouse/ ./wheelhouse
-# If we add wheels for every platfrom, we can add --no-index
+# If we add wheels for every platform, we can add --no-index
 # What needs numpy & matplotlib?
+# For the --mount we also need the py3.8 wheels
 RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo multidict aiohttp kiwisolver lxml PyYAML yarl Pillow numpy matplotlib psutil SQLAlchemy | xargs -n 1 pip install --no-cache --find-links=./wheelhouse && rm -r ./wheelhouse
 
 
