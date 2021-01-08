@@ -32,7 +32,7 @@ jobs:
 
       - name: Get content
         run: |
-          wget -P downloads https://github.com/innovationOUtside/tm129-robotics2020/archive/master.zip
+          wget -P downloads https://github.com/innovationOUtside/tm129-robotics2020/archive/master.zip && \
           unzip -oq downloads/master.zip tm129-robotics2020-master/content/* -d downloads/
           
       # Build the images, without pushing
