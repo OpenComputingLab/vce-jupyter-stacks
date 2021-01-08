@@ -29,10 +29,6 @@ jobs:
 
       - name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
-
-      - name: Get content
-        run: |
-          wget -P downloads https://github.com/innovationOUtside/tm129-robotics2020/archive/master.zip
           
       # Build the images, without pushing
       # When I can build linux/arm64 wheels, add that to build
