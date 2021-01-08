@@ -17,7 +17,7 @@ RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple ou
 
 # x86_64, armv7l,
 ARG PROCESSOR_FAMILY=x86_64
-ARG NODE_VERSION=v15.5.0
+ARG NODE_VERSION=v15.5.1
 
 
 USER root
