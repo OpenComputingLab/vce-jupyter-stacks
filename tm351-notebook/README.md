@@ -18,3 +18,6 @@ Start the container with the flag `-e JUPYTER_TOKEN="my-new-token"` to specify y
 
 - lacking `postBuild` environment configuration steps
 
+## Accessing Additional Services
+The container does not include database services. The intention is that database serviers will run in their own containers, with contianers managed using `docker-compose`.  See for example: https://github.com/OpenComputingLab/locl-templates/tree/main/stack . For a UI that can spawn pre-configured environments created from multiple containers, see [here](https://docs.google.com/document/d/1pRKTaYbvzZJ4n3Ww_ShGURcJdIHBQhOjQdgCSviUV3o/edit?usp=sharing).
+
