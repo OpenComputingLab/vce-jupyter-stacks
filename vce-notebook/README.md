@@ -5,7 +5,7 @@
 
 Jupyter kernels: ![](https://img.shields.io/badge/python-3.8-blue)
 
-Basic Jupyter notebook environment.
+Customised Jupyter notebook environment.
 
 Published on DockerHub as: [`ouvocl/vce-notebook`](https://hub.docker.com/r/ouvocl/vce-notebook)
 
