@@ -13,7 +13,7 @@ on:
         description: 'Push to dockerhub'
 
 jobs:
-  buildx:
+  buildx_base:
     runs-on: ubuntu-latest
     steps:
       # Get the repositery's code
