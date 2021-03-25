@@ -83,7 +83,7 @@ RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo pyzmq | xar
     pip install --quiet --upgrade notebook jupyterlab && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions /home/$NB_USER && \
-    rm -r /home/$NB_USER/wheelhouse
+    rm /home/$NB_USER/wheelhouse/*
 
 USER $NB_UID
 
