@@ -82,8 +82,8 @@ WORKDIR $HOME
 RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo pyzmq | xargs -n 1 pip install --find-links=/home/$NB_USER/wheelhouse && \
     pip install --quiet --upgrade notebook jupyterlab && \
     rm -rf /home/$NB_USER/.cache/yarn && \
-    fix-permissions /home/$NB_USER
-    #rm -r /home/$NB_USER/wheelhouse
+    fix-permissions /home/$NB_USER && \
+    rm -r /home/$NB_USER/wheelhouse
 
 USER $NB_UID
 
