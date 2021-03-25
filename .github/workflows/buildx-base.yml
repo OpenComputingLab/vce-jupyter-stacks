@@ -34,7 +34,6 @@ jobs:
       # When I can build linux/arm64 wheels, add that to build
       - name: Run Buildx
         run: |
-          cp -r wheelhouse wheelhouse2
           docker buildx build \
             --platform linux/amd64,linux/arm/v7,linux/arm64 \
             -t ouvocl/jupyter-base:${GITHUB_SHA::7} \
@@ -45,13 +44,11 @@ jobs:
       # Reusing the cache, push the images
       - name: Run Buildx
         run: |
-          cp -r wheelhouse2 wheelhouse
           docker buildx build \
             --platform linux/amd64,linux/arm/v7,linux/arm64 \
             -t ouvocl/jupyter-base:${GITHUB_SHA::7} \
             ./base-notebook \
             --push
-          cp -r wheelhouse2 wheelhouse
           docker buildx build \
             --platform linux/amd64,linux/arm/v7,linux/arm64 \
             -t ouvocl/jupyter-base:latest \
