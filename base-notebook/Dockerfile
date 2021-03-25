@@ -78,7 +78,7 @@ WORKDIR $HOME
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
 COPY ./wheelhouse/ /home/$NB_USER/wheelhouse/
-# If we add wheels for every platfrom, we can add --no-index
+# If we add wheels for every platform, we can add --no-index
 RUN echo pyzmq | xargs -n 1 pip install --find-links=/home/$NB_USER/wheelhouse && \
     pip install --quiet --upgrade notebook jupyterlab && \
     rm -rf /home/$NB_USER/.cache/yarn && \
