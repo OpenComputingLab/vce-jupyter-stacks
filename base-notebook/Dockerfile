@@ -80,7 +80,7 @@ WORKDIR $HOME
 COPY ./wheelhouse/ /home/$NB_USER/wheelhouse/
 # If we add wheels for every platfrom, we can add --no-index
 RUN echo pyzmq | xargs -n 1 pip install --find-links=/home/$NB_USER/wheelhouse && \
-    pip install --quiet --upgrade jupyter && \
+    pip install --quiet --upgrade notebook jupyterhub jupyterlab && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions /home/$NB_USER && \
     rm -r /home/$NB_USER/wheelhouse
