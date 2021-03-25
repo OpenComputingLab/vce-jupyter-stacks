@@ -1,4 +1,6 @@
-FROM ouvocl/vce-jupyter-scipy
+ARG BASE_IMAGE=ouvocl/vce-scipy
+FROM $BASE_IMAGE
+
 
 #RUN pip3 install --extra-index-url=https://www.piwheels.org/simple 
 
