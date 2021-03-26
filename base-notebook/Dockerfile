@@ -77,14 +77,14 @@ WORKDIR $HOME
 # Correct permissions
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
-COPY ./wheelhouse/ /home/$NB_USER/wheelhouse/
+#COPY ./wheelhouse/ /home/$NB_USER/wheelhouse/
 # If we add wheels for every platform, we can add --no-index
 #RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ 
-RUN echo pyzmq | xargs -n 1 pip install --find-links=/home/$NB_USER/wheelhouse && \
+RUN echo pyzmq | xargs -n 1 pip install --find-links=https://opencomputinglab.github.io/vce-wheelhouse && \
     pip install --quiet --upgrade notebook jupyterlab && \
     rm -rf /home/$NB_USER/.cache/yarn && \
-    fix-permissions /home/$NB_USER && \
-    rm /home/$NB_USER/wheelhouse/*
+    fix-permissions /home/$NB_USER
+#    rm /home/$NB_USER/wheelhouse/*
 
 USER $NB_UID
 
