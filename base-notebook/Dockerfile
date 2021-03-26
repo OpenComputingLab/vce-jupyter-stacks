@@ -80,7 +80,7 @@ WORKDIR $HOME
 #COPY ./wheelhouse/ /home/$NB_USER/wheelhouse/
 # If we add wheels for every platform, we can add --no-index
 #RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ 
-RUN echo pyzmq | xargs -n 1 pip install --find-links=https://opencomputinglab.github.io/vce-wheelhouse && \
+RUN echo pyzmq | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse && \
     pip install --quiet --upgrade notebook jupyterlab && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions /home/$NB_USER
