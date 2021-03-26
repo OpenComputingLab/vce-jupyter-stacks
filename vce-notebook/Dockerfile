@@ -6,6 +6,11 @@ LABEL maintainer="Tony Hirst <tony.hirst@open.ac.uk>"
 
 USER root
 
+RUN apt-get update && \
+    apt-get install -y libopenblas-dev libblis2-serial libjpeg-dev zlib1g-dev libfreetype6-dev libopenjp2-7 libtiff5 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
 # Install Python 3 packages
 #COPY ./wheelhouse/ ./wheelhouse
 #RUN echo multidict aiohttp kiwisolver lxml PyYAML yarl Pillow numpy matplotlib psutil SQLAlchemy | xargs -n 1 pip install --no-cache --find-links=./wheelhouse && rm -r ./wheelhouse
@@ -14,7 +19,7 @@ USER root
 # For the --mount we also need the py3.8 wheels if we have --no-index
 #RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo multidict aiohttp kiwisolver lxml PyYAML yarl Pillow numpy matplotlib psutil SQLAlchemy | xargs -n 1 pip install --no-cache --find-links=./wheelhouse  
 #RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo multidict aiohttp kiwisolver lxml PyYAML yarl Pillow numpy matplotlib psutil SQLAlchemy | xargs -n 1 pip install --find-links=./wheelhouse 
-RUN echo multidict aiohttp kiwisolver lxml PyYAML yarl Pillow numpy matplotlib psutil SQLAlchemy | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse
+RUN echo yarl multidict aiohttp kiwisolver lxml PyYAML Pillow numpy matplotlib psutil SQLAlchemy | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse
 
 RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \
     'cython' \
