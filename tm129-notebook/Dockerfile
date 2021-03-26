@@ -5,11 +5,14 @@ FROM $BASE_IMAGE
 USER root
 #COPY ./wheelhouse/ ./wheelhouse/
 # Save the effort of building wheels
-RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo jp_proxy_widget | xargs -n 1 pip install --no-cache --find-links=./wheelhouse
-# If we add wheels for every platfrom, we can add --no-index
-RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo SQLAlchemy PyYAML durable-rules lxml yarl multidict aiohttp psutil tflite_runtime | xargs -n 1 pip install --no-cache --find-links=./wheelhouse
+#RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo jp_proxy_widget | xargs -n 1 pip install --no-cache --find-links=./wheelhouse
+# If we add wheels for every platform, we can add --no-index
+#RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo SQLAlchemy PyYAML durable-rules lxml yarl multidict aiohttp psutil tflite_runtime | xargs -n 1 pip install --no-cache --find-links=./wheelhouse
+RUN echo jp_proxy_widget | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse
+RUN echo SQLAlchemy PyYAML durable-rules lxml yarl multidict aiohttp psutil tflite_runtime | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse
 
-USER $NB_USER
+
+#USER $NB_USER
 
 RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple myst-nb jupytext
 RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple blockdiag blockdiagMagic
@@ -21,7 +24,7 @@ ARG NODE_LATEST=latest-v15.x
 ARG NODE_VERSION=v15.12.0
 
 
-USER root
+#USER root
 
 RUN wget https://nodejs.org/dist/${NODE_LATEST}/node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz && \
     tar xvzf node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz  &&  \
@@ -42,7 +45,7 @@ RUN wget https://nodejs.org/dist/${NODE_LATEST}/node-${NODE_VERSION}-linux-${PRO
 #RUN pip3 wheel --wheel-dir=./wheelhouse ./jp_proxy_widget-master.zip &&  pip3 install --find-links=./wheelhouse --user --no-cache jp_proxy_widget  && pip3 install --user --no-cache --upgrade tqdm && pip3 install --user --no-deps nbev3devsim && pip3 install --user --extra-index-url=https://www.piwheels.org/simple --no-cache ou-tm129-py
 #RUN pip3 install --extra-index-url=https://www.piwheels.org/simple  --user --no-cache ./jp_proxy_widget-master.zip   && pip3 install --user --no-cache --upgrade tqdm && pip3 install --user --no-deps nbev3devsim && pip3 install --user --extra-index-url=https://www.piwheels.org/simple --no-cache ou-tm129-py
 
-USER root
+#USER root
 COPY postBuild ./postBuild
 RUN chmod ugo+x ./postBuild
 #USER $NB_USER

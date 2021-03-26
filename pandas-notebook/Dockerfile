@@ -16,11 +16,12 @@ RUN apt-get update && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Python 3 packages
-COPY ./wheelhouse/ ./wheelhouse
+#COPY ./wheelhouse/ ./wheelhouse
 # If we add wheels for every platfrom, we can add --no-index
-RUN echo kiwisolver matplotlib Pillow numpy pandas lxml pyzmq PyYAML | xargs -n 1 pip install --no-cache --find-links=./wheelhouse && rm -r ./wheelhouse
+RUN echo kiwisolver matplotlib Pillow numpy pandas lxml pyzmq PyYAML | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse
+#--find-links=./wheelhouse && rm -r ./wheelhouse
 
-USER $NB_UID
+#USER $NB_UID
 
 RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \
     'beautifulsoup4' \
@@ -31,7 +32,7 @@ RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \
     'widgetsnbextension'\
     'xlrd'
 
-USER root
+#USER root
 # Import matplotlib the first time to build the font cache.
 ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
 RUN bash -c 'MPLBACKEND=Agg python -c "import matplotlib.pyplot"'

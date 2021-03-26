@@ -14,14 +14,15 @@ RUN apt-get update && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Python 3 packages
-COPY ./wheelhouse/ ./wheelhouse/
+#COPY ./wheelhouse/ ./wheelhouse/
 # If we add wheels for every platfrom, we can add --no-index
-RUN echo scipy scikit_learn numexpr h5py tables statsmodels | xargs -n 1 pip install --no-cache --find-links=./wheelhouse && rm -r ./wheelhouse
-
-USER $NB_UID
+RUN echo scipy scikit_learn numexpr h5py tables statsmodels | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse
+#--find-links=./wheelhouse && rm -r ./wheelhouse
 
 RUN pip install --no-cache  \
     'plotly' \ 
     'seaborn'
+
+USER $NB_UID
 
 WORKDIR $HOME
