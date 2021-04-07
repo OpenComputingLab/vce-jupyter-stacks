@@ -40,7 +40,8 @@ RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \
     'nb-extension-tagstyler' \
     'nb-extension-empinken' \
     'nb-cell-execution-status' \
-    'nbsearch'
+    'nbsearch' \
+    'nbgitpuller`
 
 #USER root
 COPY postBuild ./postBuild
