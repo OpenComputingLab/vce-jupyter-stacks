@@ -46,14 +46,27 @@ services:
       - tm351
     ports:
       - 35100:8888
+ 
+  mongodata:
+    container_name: tm351-mongodata
+    command: echo created
+    image: busybox
+    volumes: 
+        - /data/db
+    networks:
+      - tm351
 
   mongodb:
     container_name: tm351-mongo
-    image: psychemedia/ou-tm351-mongo-simple-test
+    #image: psychemedia/ou-tm351-mongo-simple-test
+    build: ./mongo
+    # In hosted solution, do not expose public port
     ports:
       - 27017:27017
     networks:
       - tm351
+    volumes_from:
+      - mongodata
 
   openrefine:
     container_name: tm351-openrefine
@@ -66,9 +79,10 @@ services:
         - ./openrefine_projects/:/mnt/refine
     networks:
       - tm351
+    privileged: true
 
-  devpostgresdata:
-    container_name: tm351-devpostgresdata
+  postgresdata:
+    container_name: tm351-postgresdata
     command: echo created
     image: busybox
     volumes:
