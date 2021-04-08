@@ -1,0 +1,95 @@
+# Docker Compose file to demonstrate TM351 composition
+# In the same directory as tis docker-compose.yml file, run the command:
+# docker-compose up
+# A Jupyter notebook server will appear on localhost:35100 (token: letmein)
+# An OpenRefine server will appear on localhost:35151
+# Shut down:
+# docker-compose down
+
+# Database connection tests
+## Postgres test
+## In a Jupyter notebook code cell, the following will run a connection test
+#PGCONN='postgresql://postgres:PGPass@tm351-postgres:5432'
+#from sqlalchemy import create_engine
+#engine = create_engine(PGCONN)
+#from pandas import read_sql_query as psql
+#
+#psql("SELECT table_schema,table_name FROM information_schema.tables \
+#    ORDER BY table_schema,table_name LIMIT 3;", engine)
+##A table containing three rows should appear
+
+## Mongo test
+## In a Jupyter notebook code cell, the following will run a connection test
+#MONGOHOST='tm351-mongo'
+#MONGOPORT=27017
+#MONGOCONN='mongodb://{MONGOHOST}:{MONGOPORT}/'.format(MONGOHOST=MONGOHOST,MONGOPORT=MONGOPORT)
+#import pymongo
+#from pymongo import MongoClient
+#c = pymongo.MongoClient(MONGOCONN)
+#c.list_database_names()
+## A list with three items should appear
+
+version: "3.5"
+
+services:
+  notebook:
+    container_name: tm351-nb
+    image: ouvocl/vce-tm351-jh
+    environment:
+      JUPYTER_TOKEN: "letmein"
+    volumes:
+      - "./TM351VCE/notebooks:/home/jovyan/notebooks"
+      - "./TM351VCE/openrefine_projects:/home/jovyan/openrefine"
+    # Hosted solution: use volumes_from
+    networks:
+      - tm351
+    ports:
+      - 35100:8888
+ 
+  mongodb:
+    container_name: tm351-mongo
+    image: psychemedia/ou-tm351-mongo-simple-test
+    ports:
+      - 27017:27017
+    networks:
+      - tm351
+ 
+  openrefine:
+    container_name: tm351-openrefine
+    image: ouvocl/openrefine
+    ports:
+        - 35151:3333
+    volumes:
+        - ./openrefine_projects/:/mnt/refine
+    # Hosted solution: use volumes_from
+    networks:
+      - tm351
+
+  postgresdata:
+    container_name: tm351-postgresdata
+    command: echo created
+    image: busybox
+    volumes: 
+        - /var/lib/postgresql/data
+    networks:
+      - tm351
+      
+  postgres:
+    container_name: tm351-postgres
+    environment:
+        - POSTGRES_PASSWORD=PGPass
+    image: postgres
+    ports:
+        - 5432:5432
+    restart: unless-stopped
+    #Ideally we should be able to mount this - or the data container - 
+    # against a host directory
+    #volumes:
+    #    - ./db/postgres/:/var/lib/postgresql/data
+    volumes_from:
+        - postgresdata
+    networks:
+      - tm351
+
+networks:
+    tm351:
