@@ -42,34 +42,19 @@ services:
     volumes:
       - "./TM351VCE/notebooks:/home/jovyan/notebooks"
       - "./TM351VCE/openrefine_projects:/home/jovyan/openrefine"
-    # Hosted solution: use volumes_from
     networks:
       - tm351
     ports:
-        # In hosted solution, expose on public port 80 or assigned port?
       - 35100:8888
- 
-  mongodata:
-    container_name: tm351-mongodata
-    command: echo created
-    image: busybox
-    volumes: 
-        - /data/db
-    networks:
-      - tm351
 
   mongodb:
     container_name: tm351-mongo
-    #image: psychemedia/ou-tm351-mongo-simple-test
-    build: ./mongo
-    # In hosted solution, do not expose public port
+    image: psychemedia/ou-tm351-mongo-simple-test
     ports:
       - 27017:27017
-    volumes_from:
-        - mongodata
     networks:
       - tm351
- 
+
   openrefine:
     container_name: tm351-openrefine
     image: ouvocl/openrefine
@@ -79,19 +64,18 @@ services:
         - 35151:3333
     volumes:
         - ./openrefine_projects/:/mnt/refine
-    # Hosted solution: use volumes_from
     networks:
       - tm351
 
-  postgresdata:
-    container_name: tm351-postgresdata
+  devpostgresdata:
+    container_name: tm351-devpostgresdata
     command: echo created
     image: busybox
-    volumes: 
+    volumes:
         - /var/lib/postgresql/data
     networks:
       - tm351
-      
+
   postgres:
     container_name: tm351-postgres
     environment:
@@ -102,7 +86,7 @@ services:
     ports:
         - 5432:5432
     restart: unless-stopped
-    #Ideally we should be able to mount this - or the data container - 
+    #Ideally we should be able to mount this - or the data container -
     # against a host directory
     #volumes:
     #    - ./db/postgres/:/var/lib/postgresql/data
