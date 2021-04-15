@@ -34,9 +34,6 @@ RUN wget https://nodejs.org/dist/${NODE_LATEST}/node-${NODE_VERSION}-linux-${PRO
     rm node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz # && rm -r node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}
 
 
-# JupyterHub support
-RUN pip3 install --no-cache jupyterhub
-
 #RUN apt-get install -y gfortran libatlas-base-dev libopenblas-dev liblapack-dev
 
 #USER $NB_USER
