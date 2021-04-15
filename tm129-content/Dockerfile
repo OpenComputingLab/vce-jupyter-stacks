@@ -14,4 +14,6 @@ RUN wget -P downloads https://github.com/innovationOUtside/tm129-robotics2020/ar
     mv downloads/tm129-robotics2020-master/content/ content/ && \
     rm -r downloads && chown -R $NB_USER content
 
+RUN VERSION="TM129_21B_0.01" && DATE=`date +%Y-%m-%d/%H:%M.%S` && echo "Version: ${VERSION} - build time: ${DATE}." > /opt/version.txt
+
 USER $NB_USER
