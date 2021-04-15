@@ -35,7 +35,7 @@ RUN wget https://nodejs.org/dist/${NODE_LATEST}/node-${NODE_VERSION}-linux-${PRO
 
 
 # JupyterHub support
-RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple jupyterhub
+RUN pip3 install --no-cache jupyterhub
 
 #RUN apt-get install -y gfortran libatlas-base-dev libopenblas-dev liblapack-dev
 
