@@ -12,6 +12,7 @@ WORKDIR $HOME
 RUN wget -P downloads https://github.com/innovationOUtside/tm129-robotics2020/archive/master.zip && \
     unzip -oq downloads/master.zip tm129-robotics2020-master/content/* -d downloads/ && \
     mv downloads/tm129-robotics2020-master/content/ content/ && \
+    rm content/*/.log && \
     rm -r downloads && chown -R $NB_USER content
 
 RUN VERSION="TM129_21B_0.01" && DATE=`date +%Y-%m-%d/%H:%M.%S` && echo "Version: ${VERSION} - build time: ${DATE}." > /opt/version.txt
