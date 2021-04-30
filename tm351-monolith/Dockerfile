@@ -1,0 +1,2 @@
+ARG BASE_IMAGE=ouvocl/vce-tm351
+FROM $BASE_IMAGE
