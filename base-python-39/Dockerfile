@@ -7,5 +7,5 @@ ENV PROCESSOR_FAMILY=${PROCESSOR_FAMILY}
 
 # Create a base Python environment on which to build other images
 
-RUN apt-get update && apt-get instll -y python3-pip && \
+RUN apt-get update && apt-get install -y python3-pip && \
     python3 -m pip install --upgrade pip
