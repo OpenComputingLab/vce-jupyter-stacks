@@ -7,5 +7,4 @@ ENV PROCESSOR_FAMILY=${PROCESSOR_FAMILY}
 
 # Create a base Python environment on which to build other images
 
-RUN apt-get update && apt-get install -y python3-pip && \
-    python3 -m pip install --upgrade pip
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python3.9 get-pip.py
