@@ -40,6 +40,7 @@ RUN apt-get update \
     build-essential \
     unzip \
     git \
+    libffi-dev \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
