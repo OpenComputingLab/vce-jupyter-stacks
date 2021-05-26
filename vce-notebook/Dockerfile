@@ -7,7 +7,7 @@ LABEL maintainer="Tony Hirst <tony.hirst@open.ac.uk>"
 USER root
 
 RUN apt-get update && \
-    apt-get install -y libopenblas-dev libblis2-serial libjpeg-dev zlib1g-dev libfreetype6-dev libopenjp2-7 libtiff5 && \
+    apt-get install -y libopenblas-dev libblis3-serial libjpeg-dev zlib1g-dev libfreetype6-dev libopenjp2-7 libtiff5 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
