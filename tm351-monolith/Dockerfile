@@ -56,8 +56,8 @@ ARG PGDATA=${PGDATA}:-${PG_DB_DIR} && \
     if [ ! -d "$PGDATA" ]; then initdb -D "$PGDATA" --auth-host=md5 --encoding=UTF8 ; fi && \
     pg_ctl -D "$PGDATA" -l "$PGDATA/pg.log" start
 #Copy the initialisation files into the final container
-#COPY postgresql.conf /etc/postgresql/11/main/
-RUN sed -e "s/[#]\?listen_addresses = .*/listen_addresses = '*'/g" -i '/etc/postgresql/11/main/postgresql.conf'
+#COPY postgresql.conf /etc/postgresql/11/main/ 
+RUN sed -e "s/[#]\?listen_addresses = .*/listen_addresses = '*'/g" -i '/etc/postgresql/12/main/postgresql.conf'
 COPY init_db init_db_seed
 RUN chmod +x ./init_db_seed/postgres/init_db.sh
 

@@ -11,8 +11,8 @@ USER root
 # ffmpeg for matplotlib anim & dvipng+cm-super for latex labels
 RUN apt-get update && \
     apt-get install -y --no-install-recommends ffmpeg dvipng cm-super && \
-    # Pillow support?
-    apt-get install -y libopenblas-dev libblis2-serial libjpeg-dev zlib1g-dev libfreetype6-dev libopenjp2-7 libtiff5 && \
+    # Pillow support? libblis2-serial <-> libblis3-serial
+    apt-get install -y libopenblas-dev libblis3-serial libjpeg-dev zlib1g-dev libfreetype6-dev libopenjp2-7 libtiff5 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Python 3 packages
