@@ -1,0 +1,20 @@
+#!/bin/bash
+
+service postgresql restart
+
+mongod --fork --logpath /dev/stdout --dbpath ${MONGO_DB_PATH}
+
+# Test dir
+#if [ -d "$DIR" ]; then
+#fi
+
+# Test file
+#if [ -f "$FILE" ]; then
+#fi
+
+if [ -d "/home/jovyan/content" ]; then
+    mkdir -p /home/jovyan/content3
+    cp –r /home/jovyan/content/* /home/jovyan/content3
+fi
+
+exec "$@" 

@@ -1,0 +1,8 @@
+module:
+  code: TM351-M
+  presentation: 21J
+type: jupyter-notebook
+content:
+  - source: content
+    target:
+    overwrite: if-unchanged
