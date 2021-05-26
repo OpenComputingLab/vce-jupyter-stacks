@@ -1,4 +1,4 @@
-FROM ouvocl/vce-tm351
+FROM ouvocl/vce-tm351-monolith
 
 #RUN pip3 install --extra-index-url=https://www.piwheels.org/simple 
 
