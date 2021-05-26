@@ -1,4 +1,4 @@
-name: buildx-vce-tm351
+name: buildx-vce-tm351-monolith
 # Via: https://www.padok.fr/en/blog/multi-architectures-docker-iot
 on:
   release:
@@ -13,7 +13,7 @@ on:
         description: 'Push to dockerhub'
 
 jobs:
-  buildx_vce_tm351:
+  buildx_vce_tm351_monolith:
     runs-on: ubuntu-latest
     env:
       DOCKER_CLI_EXPERIMENTAL: "enabled"
@@ -34,13 +34,12 @@ jobs:
 
       # Build the images, without pushing
       # When I can build linux/arm64 wheels, add that to build
-      # TO DO - removed linux/arm/v7 for now due to pyproj old dependency
       - name: Run Buildx
         run: |
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            -t ouvocl/vce-tm351:${GITHUB_SHA::7} \
-            ./tm351-notebook
+            -t ouvocl/vce-tm351-monolith:${GITHUB_SHA::7} \
+            ./tm351-monolith
       - name: Login to DockerHub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
@@ -49,11 +48,11 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            -t ouvocl/vce-tm351:${GITHUB_SHA::7} \
-            ./tm351-notebook \
+            -t ouvocl/vce-tm351-monolith:${GITHUB_SHA::7} \
+            ./tm351-monolith \
             --push
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            -t ouvocl/vce-tm351:latest \
-            ./tm351-notebook \
+            -t ouvocl/vce-tm351-monolith:latest \
+            ./tm351-monolith \
             --push
