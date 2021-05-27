@@ -10,8 +10,12 @@ ARG PROCESSOR_FAMILY=x86_64
 ENV PROCESSOR_FAMILY=${PROCESSOR_FAMILY}
 
 # Create a base Python environment on which to build other images
-
+ENV LANG C.UTF-8
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
     python3.9 get-pip.py
 
 RUN ln -s /usr/bin/python3.9 /usr/bin/python
+
+# TO DO - error in RPi32
+# amybe https://github.com/geerlingguy/internet-pi/pull/11 ?
+# Run privilieged? https://github.com/linuxserver/docker-calibre-web/issues/119#issuecomment-793000917
