@@ -9,6 +9,8 @@ ARG BASE_IMAGE=$ROOT_IMAGE
 
 FROM $BASE_IMAGE
 
+ARG PIP=pip3
+
 LABEL maintainer="Tony Hirst <tony.hirst@open.ac.uk>"
 ARG NB_USER="jovyan"
 ARG NB_UID="1000"
@@ -83,8 +85,8 @@ WORKDIR $HOME
 #RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ 
 
 # TO DO  - hackfix for now - pin pyzmq to a version we have
-RUN echo pyzmq==22.0.3 | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse && \
-    pip install --quiet --upgrade notebook jupyterlab && \
+RUN echo pyzmq==22.0.3 | xargs -n 1 $pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse && \
+    $PIP install --quiet --upgrade notebook jupyterlab && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions /home/$NB_USER
 #    rm /home/$NB_USER/wheelhouse/*
