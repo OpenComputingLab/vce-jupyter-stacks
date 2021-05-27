@@ -85,7 +85,7 @@ WORKDIR $HOME
 #RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ 
 
 # TO DO  - hackfix for now - pin pyzmq to a version we have
-RUN echo pyzmq==22.0.3 | xargs -n 1 $pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse && \
+RUN echo pyzmq==22.0.3 | xargs -n 1 $PIP install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse && \
     $PIP install --quiet --upgrade notebook jupyterlab && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions /home/$NB_USER
