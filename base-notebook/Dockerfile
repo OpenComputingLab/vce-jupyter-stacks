@@ -4,7 +4,7 @@
 # Ubuntu 20.04 (focal)
 # https://hub.docker.com/_/ubuntu/?tab=tags&name=focal
 # OS/ARCH: linux/amd64, linux/arm/v7
-ARG ROOT_IMAGE=ouvocl/base-py39
+ARG ROOT_IMAGE=ouvocl/base-py38
 ARG BASE_IMAGE=$ROOT_IMAGE
 
 FROM $BASE_IMAGE
