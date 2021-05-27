@@ -9,7 +9,7 @@ ARG BASE_IMAGE=$ROOT_IMAGE
 
 FROM $BASE_IMAGE
 
-ARG PIP=pip3
+ARG PIP=pip
 
 LABEL maintainer="Tony Hirst <tony.hirst@open.ac.uk>"
 ARG NB_USER="jovyan"
