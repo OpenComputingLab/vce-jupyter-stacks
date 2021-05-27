@@ -52,8 +52,8 @@ RUN pip install --no-cache git+https://github.com/innovationOUtside/nb_serverpro
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=postgres
 #ENV POSTGRES_DB=my_database_name
-ARG PGDATA=${PGDATA}:-${PG_DB_DIR} && \
-    if [ ! -d "$PGDATA" ]; then initdb -D "$PGDATA" --auth-host=md5 --encoding=UTF8 ; fi && \
+ARG PGDATA=${PGDATA}:-${PG_DB_DIR}
+RUN if [ ! -d "$PGDATA" ]; then initdb -D "$PGDATA" --auth-host=md5 --encoding=UTF8 ; fi && \
     pg_ctl -D "$PGDATA" -l "$PGDATA/pg.log" start
 #Copy the initialisation files into the final container
 #COPY postgresql.conf /etc/postgresql/11/main/ 

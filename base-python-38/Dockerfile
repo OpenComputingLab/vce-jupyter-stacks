@@ -3,19 +3,10 @@ FROM ${BASE_IMAGE}
 RUN apt-get update && \
     apt-get install -y bash-completion vim curl zip unzip bzip2 wget && \
     apt-get install -y build-essential gcc && \
-    apt-get install -y libatlas-base-dev libfreetype6-dev libpng-dev libhdf5-serial-dev && \
-    apt-get install -y python3.9 python3.9-dev python3-distutils
+    apt-get install -y libatlas-base-dev libfreetype6-dev libpng-dev libhdf5-serial-dev
 
 ARG PROCESSOR_FAMILY=x86_64
 ENV PROCESSOR_FAMILY=${PROCESSOR_FAMILY}
-
-# Create a base Python environment on which to build other images
-ENV LANG C.UTF-8
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
-    python3.9 get-pip.py
-
-# Note that the following does not persist — it will need calling
-RUN ln -s /usr/bin/python3.9 /usr/bin/python
 
 # TO DO - error in RPi32
 # amybe https://github.com/geerlingguy/internet-pi/pull/11 ?
