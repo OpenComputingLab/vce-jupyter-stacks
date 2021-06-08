@@ -20,17 +20,23 @@ RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple ou
 
 # x86_64, armv7l,
 ARG PROCESSOR_FAMILY=x86_64
-ARG NODE_LATEST=latest-v16.x
-ARG NODE_VERSION=v16.3.0
+#ARG NODE_LATEST=latest-v16.x
+#ARG NODE_VERSION=v16.3.0
 
 #USER root
 
-RUN wget https://nodejs.org/dist/${NODE_LATEST}/node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz && \
-    tar xvzf node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz  &&  \
-    mkdir -p /opt/node && cp -r node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}/* /opt/node && \
-    ln -s /opt/node/bin/node /usr/bin/node && ln -s /opt/node/lib/node /usr/lib/node && \
-    ln -s /opt/node/bin/npm /usr/bin/npm && ln -s /opt/node/bin/node-waf /usr/bin/node-waf && \
-    rm node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz # && rm -r node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}
+#RUN wget https://nodejs.org/dist/${NODE_LATEST}/node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz && \
+#    tar xvzf node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz  &&  \
+#    mkdir -p /opt/node && cp -r node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}/* /opt/node && \
+#    ln -s /opt/node/bin/node /usr/bin/node && ln -s /opt/node/lib/node /usr/lib/node && \
+#    ln -s /opt/node/bin/npm /usr/bin/npm && ln -s /opt/node/bin/node-waf /usr/bin/node-waf && \
+#    rm node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz # && rm -r node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}
+
+# Is nodejs really required or is it a build dependency?
+RUN apt-get update \
+ && apt-get install -yq --no-install-recommends \
+ nodejs &&\
+ apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
 #RUN apt-get install -y gfortran libatlas-base-dev libopenblas-dev liblapack-dev
