@@ -3,6 +3,14 @@ ARG BASE_IMAGE=ouvocl/vce-scipy
 FROM $BASE_IMAGE
 
 USER root
+
+# Is nodejs really required or is it a build dependency?
+RUN apt-get update \
+ && apt-get install -yq --no-install-recommends \
+ nodejs &&\
+ apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
 #COPY ./wheelhouse/ ./wheelhouse/
 # Save the effort of building wheels
 #RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo jp_proxy_widget | xargs -n 1 pip install --no-cache --find-links=./wheelhouse
@@ -33,10 +41,10 @@ ARG PROCESSOR_FAMILY=x86_64
 #    rm node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}.tar.gz # && rm -r node-${NODE_VERSION}-linux-${PROCESSOR_FAMILY}
 
 # Is nodejs really required or is it a build dependency?
-RUN apt-get update \
- && apt-get install -yq --no-install-recommends \
- nodejs &&\
- apt-get clean && rm -rf /var/lib/apt/lists/*
+#RUN apt-get update \
+# && apt-get install -yq --no-install-recommends \
+# nodejs &&\
+# apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
 #RUN apt-get install -y gfortran libatlas-base-dev libopenblas-dev liblapack-dev
