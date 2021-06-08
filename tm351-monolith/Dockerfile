@@ -5,16 +5,17 @@ USER root
 #
 # Add postgres
 # Create the file repository configuration:
-#RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
-    # Import the repository signing key:
-#   && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
-#    && apt-get update && apt-get -y install postgresql
-
-# Install the latest version of PostgreSQL.
-##RUN rm -rf /var/lib/apt/lists/* 
-RUN apt update && apt-get install -y postgresql && apt-get clean
+# Create the file repository configuration:
+#RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+# Import the repository signing key:
+#RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -  && \
+        # Update the package lists:
+#        apt-get update && \
+        # Install the latest version of PostgreSQL.
+        # If you want a specific version, use 'postgresql-12' or similar instead of 'postgresql':
+#        apt-get -y install postgresql
+RUN apt-get update && apt-get install -y postgresql
 RUN PG_DB_DIR=/var/db/data/postgres && mkdir -p $PG_DB_DIR
-
 
 # Add Mongo
 #COPY .mongo_version .mongo_version
@@ -31,8 +32,14 @@ RUN PG_DB_DIR=/var/db/data/postgres && mkdir -p $PG_DB_DIR
 #    && tar -xvf ${MONGODB_BASE}-${MONGODB_VERSION}.tgz >/dev/null \
 #    && rm ${MONGODB_BASE}-${MONGODB_VERSION}.tgz \
 #    && mv ${MONGODB_BASE}-${MONGODB_VERSION} ${MONGODB_PATH}
-RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
-RUN echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+RUN apt-get update && apt-get install -y gnupg && \
+    wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+#RUN echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+
+#Ubuntu 20.04
+RUN echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+
+#RUN echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 RUN apt-get update && apt-get install -y mongodb-org
 
  
@@ -49,15 +56,16 @@ RUN wget -q -O openrefine-${OPENREFINE_VERSION}.tar.gz https://github.com/OpenRe
         && rm openrefine-${OPENREFINE_VERSION}.tar.gz
 RUN pip install --no-cache git+https://github.com/innovationOUtside/nb_serverproxy_openrefine.git
 
-ENV POSTGRES_USER=postgres
-ENV POSTGRES_PASSWORD=postgres
-#ENV POSTGRES_DB=my_database_name
-ARG PGDATA=${PGDATA}:-${PG_DB_DIR}
-RUN if [ ! -d "$PGDATA" ]; then initdb -D "$PGDATA" --auth-host=md5 --encoding=UTF8 ; fi && \
-    pg_ctl -D "$PGDATA" -l "$PGDATA/pg.log" start
-#Copy the initialisation files into the final container
-#COPY postgresql.conf /etc/postgresql/11/main/ 
+
+# POSTGRES
 RUN sed -e "s/[#]\?listen_addresses = .*/listen_addresses = '*'/g" -i '/etc/postgresql/12/main/postgresql.conf'
+
+# Changing datadir
+# https://magicesp.com/howto/ubuntu-server-20.04/postgresql/move-postgresql-data-files-change-cluster-location
+#RUN sed -e "s/[#]\?data_directory = .*/data_directory = 'NEW_DATA_DIR'/g" -i '/etc/postgresql/12/main/postgresql.conf'
+
+# No env var is set? How can we set this properly, eg from pg_lsclusters?
+ARG PGDATA=/var/lib/postgresql/12/main
 COPY init_db init_db_seed
 RUN chmod +x ./init_db_seed/postgres/init_db.sh
 
@@ -66,7 +74,24 @@ RUN chmod +x ./init_db_seed/postgres/init_db.sh
 #ENV PG_ENTRYPOINT /var/startup/postgres-entrypoint
 #COPY postgres-entrypoint /var/startup/postgres-entrypoint
 #RUN chmod +x /var/startup/postgres-entrypoint
+
+
 USER postgres
+
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
+ENV POSTGRES_DB=tm351db
+
+ENV PGDATA=$PGDATA
+
+
+#RUN if [ ! -d "$PGDATA" ]; then initdb -D "$PGDATA" --auth-host=md5 --encoding=UTF8 ; fi && \
+#    pg_ctl -D "$PGDATA" -l "$PGDATA/pg.log" start
+#Copy the initialisation files into the final container
+#COPY postgresql.conf /etc/postgresql/11/main/ 
+
+# LOOKUP DATADIR pg_lsclusters
+# or: sudo -u postgres psql AND THEN: SHOW data_directory;
 RUN service postgresql restart && psql postgres -f ./init_db_seed/postgres/init_db.sql && \
    ./init_db_seed/postgres/init_db.sh  
     #Put an equivalent of the above in a config file: init_db.sql
