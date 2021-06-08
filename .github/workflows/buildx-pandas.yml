@@ -35,7 +35,7 @@ jobs:
       - name: Run Buildx
         run: |
           docker buildx build \
-            --platform linux/amd64,linux/arm/v7,linux/arm64 \
+            --platform linux/amd64 \
             -t ouvocl/jupyter-pandas:${GITHUB_SHA::7} \
             ./pandas-notebook
       - name: Login to DockerHub
@@ -45,12 +45,38 @@ jobs:
       - name: Run Buildx
         run: |
           docker buildx build \
-            --platform linux/amd64,linux/arm/v7,linux/arm64 \
+            --platform linux/amd64 \
             -t ouvocl/jupyter-pandas:${GITHUB_SHA::7} \
             ./pandas-notebook \
             --push
           docker buildx build \
-            --platform linux/amd64,linux/arm/v7,linux/arm64 \
+            --platform linux/amd64 \
+            -t ouvocl/jupyter-pandas:latest \
+            ./pandas-notebook \
+            --push
+          docker rmi -f ouvocl/jupyter-pandas:${GITHUB_SHA::7}
+          docker rmi -f ouvocl/jupyter-pandas:latest
+
+          docker buildx build \
+            --platform linux/arm64 \
+            -t ouvocl/jupyter-pandas:${GITHUB_SHA::7} \
+            ./pandas-notebook \
+            --push
+          docker buildx build \
+            --platform linux/arm64 \
+            -t ouvocl/jupyter-pandas:latest \
+            ./pandas-notebook \
+            --push
+          docker rmi -f ouvocl/jupyter-pandas:${GITHUB_SHA::7}
+          docker rmi -f ouvocl/jupyter-pandas:latest
+
+          docker buildx build \
+            --platform linux/arm/v7 \
+            -t ouvocl/jupyter-pandas:${GITHUB_SHA::7} \
+            ./pandas-notebook \
+            --push
+          docker buildx build \
+            --platform linux/arm/v7 \
             -t ouvocl/jupyter-pandas:latest \
             ./pandas-notebook \
             --push
