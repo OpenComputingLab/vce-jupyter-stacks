@@ -19,7 +19,7 @@ RUN apt-get update && \
 # Install Python 3 packages
 #COPY ./wheelhouse/ ./wheelhouse
 # If we add wheels for every platfrom, we can add --no-index
-RUN echo kiwisolver matplotlib Pillow numpy pandas lxml pyzmq PyYAML | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse
+RUN for p in numpy PyYAML lxml Pillow kiwisolver matplotlib pandas pyzmq ; do echo "$p" | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse; done
 #--find-links=./wheelhouse && rm -r ./wheelhouse
 
 #USER $NB_UID
