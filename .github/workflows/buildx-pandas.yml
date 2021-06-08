@@ -75,10 +75,12 @@ jobs:
           docker buildx build \
             --platform linux/arm/v7 \
             -t ouvocl/jupyter-pandas:${GITHUB_SHA::7} \
+             -f ./pandas-notebook/Dockerfile.arm32 \
             ./pandas-notebook \
             --push
           docker buildx build \
             --platform linux/arm/v7 \
             -t ouvocl/jupyter-pandas:latest \
+            -f ./pandas-notebook/Dockerfile.arm32 \
             ./pandas-notebook \
             --push
