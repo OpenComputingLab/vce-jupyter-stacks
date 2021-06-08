@@ -37,7 +37,7 @@ RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \
 # Import matplotlib the first time to build the font cache.
 # This errors in RPi32 - but is that because of a Github Action memory issue?!
 ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
-RUN MPLBACKEND=Agg /usr/local/bin/python5 -c "import matplotlib.pyplot" &>/dev/null
+RUN MPLBACKEND=Agg /usr/local/bin/python3 -c "import matplotlib.pyplot" &>/dev/null
 
 # Activate ipywidgets extension in the environment that runs the notebook server
 RUN fix-permissions "/home/${NB_USER}" && jupyter nbextension enable --py widgetsnbextension --user
