@@ -36,7 +36,7 @@ RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \
 #USER root
 # Import matplotlib the first time to build the font cache.
 ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
-RUN MPLBACKEND=Agg python3 -c "import matplotlib.pyplot"
+RUN MPLBACKEND=Agg python3 -c "import matplotlib.pyplot" &>/dev/null
 
 # Activate ipywidgets extension in the environment that runs the notebook server
 RUN fix-permissions "/home/${NB_USER}" && jupyter nbextension enable --py widgetsnbextension --user
