@@ -16,7 +16,8 @@ RUN apt-get update && \
 # Install Python 3 packages
 #COPY ./wheelhouse/ ./wheelhouse/
 # If we add wheels for every platfrom, we can add --no-index
-RUN echo scipy scikit_learn numexpr h5py tables statsmodels | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse
+#RUN echo scipy scikit_learn numexpr h5py tables statsmodels | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse
+RUN for p in numexpr scipy scikit_learn h5py tables statsmodels ; do echo "$p" | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse; done
 #--find-links=./wheelhouse && rm -r ./wheelhouse
 
 RUN pip install --no-cache  \
