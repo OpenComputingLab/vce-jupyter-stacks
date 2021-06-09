@@ -120,6 +120,7 @@ RUN mkdir -p ./tmpdatafiles && \
 
 RUN usermod -a -G postgres jovyan
 COPY content content
+RUN chown -R $NB_USER content
 
 COPY start /var/startup/start
 RUN chmod +x /var/startup/start
@@ -128,5 +129,7 @@ COPY repo2docker-entrypoint /usr/local/bin/repo2docker-entrypoint
 COPY python3-login /usr/local/bin/python3-login
 RUN chmod +x /usr/local/bin/repo2docker-entrypoint
 RUN chmod +x /usr/local/bin/python3-login
+
+RUN fix-permissions $HOME
 ENTRYPOINT ["/usr/local/bin/repo2docker-entrypoint", "tini", "-g", "--"]
 CMD ["start-notebook.sh"]
