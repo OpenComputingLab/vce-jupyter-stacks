@@ -6,4 +6,4 @@ USER root
 # Additional requirements for hosted solution
 RUN pip install jupyterhub
 
-USER $NB_USER
+#USER $NB_USER
