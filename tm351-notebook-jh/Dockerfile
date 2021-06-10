@@ -6,4 +6,7 @@ USER root
 # Additional requirements for hosted solution
 RUN pip install jupyterhub
 
-#USER $NB_USER
+RUN touch /var/log/jupyter-server-log.txt && \
+    chown $NB_USER /var/log/jupyter-server-log.txt
+USER $NB_USER
+
