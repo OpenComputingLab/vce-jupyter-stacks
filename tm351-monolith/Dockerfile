@@ -119,8 +119,9 @@ RUN mkdir -p ./tmpdatafiles && \
 #    mongod --shutdown --dbpath ${MONGO_DB_PATH} 
 
 RUN usermod -a -G postgres jovyan
-COPY content content
-RUN chown -R $NB_USER content
+RUN mkdir -p /var/dist
+COPY content/* /var/dist/content/
+#RUN chown -R $NB_USER /var/dist/content
 
 COPY start /var/startup/start
 RUN chmod +x /var/startup/start

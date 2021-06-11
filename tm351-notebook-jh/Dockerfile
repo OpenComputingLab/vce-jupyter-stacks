@@ -8,5 +8,4 @@ RUN pip install jupyterhub
 
 RUN touch /var/log/jupyter-server-log.txt && \
     chown $NB_USER /var/log/jupyter-server-log.txt
-USER $NB_USER
-
+#USER $NB_USER

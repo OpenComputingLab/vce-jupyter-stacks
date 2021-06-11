@@ -12,9 +12,11 @@ mongod --fork --logpath /dev/stdout --dbpath ${MONGO_DB_PATH}
 #if [ -f "$FILE" ]; then
 #fi
 
-if [ -d "/home/jovyan/content" ]; then
-    mkdir -p /home/jovyan/content3
-    cp –r /home/jovyan/content/* /home/jovyan/content3
+if [ ! -d "/home/jovyan/content" ]; then
+    mkdir -p /home/jovyan/content
+    cp –r /var/dist/content/* /home/jovyan/content/
 fi
+
+fix-permissions $HOME
 
 exec "$@" 
