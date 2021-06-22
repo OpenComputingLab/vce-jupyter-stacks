@@ -37,7 +37,7 @@ jobs:
       - name: Run Buildx
         run: |
           docker buildx build \
-            --platform linux/amd64 \
+            --platform linux/amd64,linux/arm64 \
             -t ouvocl/vce-tm351-jh:${GITHUB_SHA::7} \
             ./tm351-notebook-jh
       - name: Login to DockerHub
@@ -47,12 +47,12 @@ jobs:
       - name: Run Buildx
         run: |
           docker buildx build \
-            --platform linux/amd64 \
+            --platform linux/amd64,linux/arm64 \
             -t ouvocl/vce-tm351-jh:${GITHUB_SHA::7} \
             ./tm351-notebook-jh \
             --push
           docker buildx build \
-            --platform linux/amd64 \
+            --platform linux/amd64,linux/arm64 \
             -t ouvocl/vce-tm351-jh:latest \
             ./tm351-notebook-jh \
             --push
