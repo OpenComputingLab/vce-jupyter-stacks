@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# postgres data directory migration
+# Can't seem to access these from the Dockerfile setting?
+JHPG=/home/jovyan/.postgres
+PGDATA=/home/jovyan/.postgres/12/main
+
+if [ ! -d "$JHPG" ]; then
+    # Move postgres databases
+    mkdir -p $JHPG/12/main
+
+    # Original data_directory: '/var/lib/postgresql/12/main'	
+    cp -R /var/lib/postgresql/12/main $JHPG/12
+    mv /var/lib/postgresql/12/main /var/lib/postgresql/12/main_old
+
+    chown -R postgres:postgres $JHPG
+    chmod -R 0750 $PGDATA
+
+    #sed -e "s/[#]\?data_directory = .*/data_directory = '/home/jovyan/.postgres/12/main'/g" -i '/etc/postgresql/12/main/postgresql.conf'
+    # Need to use a delimiter that isn't in the replacement string so swap the common / for @
+    sed -e "s@[#]\?data_directory = .*@data_directory = '/home/jovyan/.postgres/12/main'@g" -i '/etc/postgresql/12/main/postgresql.conf'
+    # Use PG_DATA env variable instead, set in Dockerfile
+fi
+
+
+# mongo data directory migration
+# ${MONGO_DB_PATH} == /var/db/data/mongo
+JHMONGO=/home/jovyan/.mongo
+MONGO_DB_PATH=/home/jovyan/.mongo/
+
+if [ ! -d "$JHMONGO" ]; then
+    #mkdir -p $JHMONGO
+    cp -R /var/db/data/mongo $JHMONGO
+    mv /var/db/data/mongo /var/db/data/mongo_old
+    #mv /var/db/data/mongo $JHMONGO
+
+    chmod -R u+rw $JHMONGO
+
+fi
+
+touch /var/startup/startup_jh_extras.done

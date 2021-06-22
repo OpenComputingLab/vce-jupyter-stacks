@@ -1,8 +1,29 @@
 #!/bin/bash
 
-service postgresql restart
+if [ ! -d "/home/jovyan/work" ]; then
+    mkdir -p /home/jovyan/work
+fi
 
-mongod --fork --logpath /dev/stdout --dbpath ${MONGO_DB_PATH}
+if [ ! -f "/home/jovyan/work/.seeded" ]; then
+    cp /var/dist/content/* /home/jovyan/work/
+    touch /home/jovyan/work/.seeded
+fi
+
+fix-permissions $HOME
+
+
+if [ -f "/var/startup/start_jh_extras" ]; then
+    sudo /var/startup/start_jh_extras
+fi
+
+
+# Service file: /lib/systemd/system/postgresql.service
+sudo service postgresql restart
+
+# Service file available at: /lib/systemd/system/mongod.service
+#sudo /var/startup/start_mongo
+sudo mongod --fork --logpath /dev/stdout --dbpath ${MONGO_DB_PATH}
+
 
 # Test dir
 #if [ -d "$DIR" ]; then
@@ -11,12 +32,5 @@ mongod --fork --logpath /dev/stdout --dbpath ${MONGO_DB_PATH}
 # Test file
 #if [ -f "$FILE" ]; then
 #fi
-
-if [ ! -d "/home/jovyan/content" ]; then
-    mkdir -p /home/jovyan/content
-    cp –r /var/dist/content/* /home/jovyan/content/
-fi
-
-fix-permissions $HOME
 
 exec "$@" 

@@ -42,8 +42,6 @@ RUN echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mon
 #RUN echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 RUN apt-get update && apt-get install -y mongodb-org
 
- 
-
 
 # Add OpenRefine
 RUN apt-get update && apt-get install -y openjdk-11-jre
@@ -66,8 +64,10 @@ RUN sed -e "s/[#]\?listen_addresses = .*/listen_addresses = '*'/g" -i '/etc/post
 
 # No env var is set? How can we set this properly, eg from pg_lsclusters?
 ARG PGDATA=/var/lib/postgresql/12/main
-COPY init_db init_db_seed
-RUN chmod +x ./init_db_seed/postgres/init_db.sh
+
+RUN mkdir -p /var/setup
+COPY init_db /var/setup/init_db_seed
+RUN chmod +x /var/setup/init_db_seed/postgres/init_db.sh
 
 #RUN apt-get install -y gosu
 #COPY init_db/postgres /docker-entrypoint-initdb.d/
@@ -92,8 +92,8 @@ ENV PGDATA=$PGDATA
 
 # LOOKUP DATADIR pg_lsclusters
 # or: sudo -u postgres psql AND THEN: SHOW data_directory;
-RUN service postgresql restart && psql postgres -f ./init_db_seed/postgres/init_db.sql && \
-   ./init_db_seed/postgres/init_db.sh  
+RUN service postgresql restart && psql postgres -f /var/setup/init_db_seed/postgres/init_db.sql && \
+   /var/setup/init_db_seed/postgres/init_db.sh  
     #Put an equivalent of the above in a config file: init_db.sql
     #psql -U postgres postgres -f init_db.sql
     #psql test < seed_db.sql
@@ -107,29 +107,45 @@ USER root
 
 ARG MONGO_DB_PATH=/var/db/data/mongo
 ENV MONGO_DB_PATH=${MONGO_DB_PATH}
-COPY ./init_db ./
+COPY ./init_db /var/setup/
+
 
 RUN mkdir -p ${MONGO_DB_PATH}
 
-RUN mkdir -p ./tmpdatafiles && \
-    tar xvjf ./init_db_seed/mongo/small_accidents.tar.bz2 -C ./tmpdatafiles  && \
+RUN mkdir -p /var/setup/tmpdatafiles && \
+    tar xvjf /var/setup/init_db_seed/mongo/small_accidents.tar.bz2 -C /var/setup/tmpdatafiles  && \
     mongod --fork --logpath /var/log/mongosetup --dbpath ${MONGO_DB_PATH} && \
-    mongorestore --drop --db accidents ./tmpdatafiles/small_accidents && \
-    rm -rf ./tmpdatafiles && rm -rf ./init_db
+    mongorestore --drop --db accidents /var/setup/tmpdatafiles/small_accidents && \
+    rm -rf /var/setup/tmpdatafiles && rm -rf /var/setup/init_db
 #    mongod --shutdown --dbpath ${MONGO_DB_PATH} 
 
 RUN usermod -a -G postgres jovyan
+
 RUN mkdir -p /var/dist
 COPY content/* /var/dist/content/
 #RUN chown -R $NB_USER /var/dist/content
 
 COPY start /var/startup/start
 RUN chmod +x /var/startup/start
+
+COPY start_mongo /var/startup/start_mongo
+RUN chmod u+x /var/startup/start_mongo
+
 ENV R2D_ENTRYPOINT /var/startup/start
 COPY repo2docker-entrypoint /usr/local/bin/repo2docker-entrypoint
 COPY python3-login /usr/local/bin/python3-login
 RUN chmod +x /usr/local/bin/repo2docker-entrypoint
 RUN chmod +x /usr/local/bin/python3-login
+
+# Update permissions to run the db services locally
+RUN echo "$NB_USER ALL=(ALL:ALL) NOPASSWD: /sbin/service postgresql restart" >> /etc/sudoers && \
+    echo "$NB_USER ALL=(ALL:ALL) NOPASSWD: /usr/bin/mongod" >> /etc/sudoers && \
+    #echo "$NB_USER ALL = (postgres) NOPASSWD: ALL" && \
+    echo "$NB_USER ALL=(ALL:ALL) NOPASSWD: /var/startup/start_jh_extras" >> /etc/sudoers && \
+    echo "$NB_USER ALL=(ALL:ALL) NOPASSWD: /var/startup/start_mongo" >> /etc/sudoers
+
+RUN VERSION="TM351_21J_0.01" && DATE=`date +%Y-%m-%d/%H:%M.%S` && \
+    echo "Version: ${VERSION} - build time: ${DATE}." > /opt/version.txt
 
 RUN fix-permissions $HOME
 ENTRYPOINT ["/usr/local/bin/repo2docker-entrypoint", "tini", "-g", "--"]
