@@ -33,8 +33,6 @@ jobs:
         run: echo ${{ steps.buildx.outputs.platforms }}
 
       # Build the images, without pushing
-      # When I can build linux/arm64 wheels, add that to build
-      # Not working on ,linux/arm64 for some reason - can't find postgresql?
       - name: Run Buildx
         run: |
           docker buildx build \
@@ -57,3 +55,15 @@ jobs:
             -t ouvocl/vce-tm351-monolith:latest \
             ./tm351-monolith \
             --push
+      - name: Run Buildx for arm64
+        run: |
+          docker buildx build \
+            --platform linux/arm64 \
+            -t ouvocl/vce-tm351-monolith:${GITHUB_SHA::7} \
+            ./tm351-monolith --push  
+          docker buildx build \
+            --platform linux/arm64 \
+            -t ouvocl/vce-tm351-monolith:latest \
+            ./tm351-monolith \
+            --push
+  
