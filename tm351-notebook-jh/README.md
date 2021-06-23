@@ -7,7 +7,9 @@ Postgres: ![](https://img.shields.io/badge/postgres-12-blue)
 MongoDB: ![](https://img.shields.io/badge/mongo-4.4.6-green)  
 OpenRefine: ![](https://img.shields.io/badge/openrefine-3.4.1-orange)  
 
-Notebook environment for the Open University module [TM351 *Data Management and Analysis*](http://www.open.ac.uk/courses/modules/tm351) with additional JupyterHub installation.
+Notebook environment for the Open University module [TM351 *Data Management and Analysis*](http://www.open.ac.uk/courses/modules/tm351) with additional JupyterHub installation for use as part of a JupyterHub/Kubernetes deployment. 
+
+*This build may not be appropriate for a Littlest JupyterHub deployment.*
 
 Published on DockerHub as: [`ouvocl/vce-tm351-jh`](https://hub.docker.com/r/ouvocl/vce-tm351-jh)
 
