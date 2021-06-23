@@ -8,9 +8,15 @@ Postgres: ![](https://img.shields.io/badge/postgres-12-blue)
 MongoDB: ![](https://img.shields.io/badge/mongo-4.4.6-green)  
 OpenRefine: ![](https://img.shields.io/badge/openrefine-3.4.1-orange)  
 
-Single image containing all TM351 services:
+Single image containing all required packages and services, including:
 
-- postgres
-- mongo
+- PostgreSQL database
+- MongoDB database
+- OpenRefine
 
-The OpenRefine service could also be included in the container, although most OpenRefine activities can be completed using a standalone container.
+## Architecture
+
+The image buid on the base Python environment ([`tm351-notebook`](https://github.com/OpenComputingLab/vce-jupyter-stacks/tree/main/tm351-notebook)) by installing the additional services as well as a `start` process (inspired by the [MyBinder `start` feature](https://mybinder.readthedocs.io/en/latest/config_files.html#start-run-code-before-the-user-sessions-starts)) to start the services when the container is launched.
+
+Further information: [Running Arbitrary Startup Scripts in Docker Containers](https://blog.ouseful.info/2021/05/26/running-arbitrary-startup-scripts-in-docker-containers/)
+
