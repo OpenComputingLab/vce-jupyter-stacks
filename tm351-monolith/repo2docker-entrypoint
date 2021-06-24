@@ -44,7 +44,7 @@ def main():
     # launch the subprocess
     child = subprocess.Popen(
         command,
-        bufsize=1,
+        bufsize=0, # Setting to 1 gives error?
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
     )

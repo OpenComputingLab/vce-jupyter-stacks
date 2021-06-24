@@ -52,7 +52,7 @@ RUN wget -q -O openrefine-${OPENREFINE_VERSION}.tar.gz https://github.com/OpenRe
         && tar xzf openrefine-${OPENREFINE_VERSION}.tar.gz \
         && mv openrefine-${OPENREFINE_VERSION} $OPENREFINE_PATH \
         && rm openrefine-${OPENREFINE_VERSION}.tar.gz
-RUN pip install --no-cache git+https://github.com/innovationOUtside/nb_serverproxy_openrefine.git
+RUN pip install nb_serverproxy_openrefine
 
 
 # POSTGRES
@@ -146,6 +146,9 @@ RUN echo "$NB_USER ALL=(ALL:ALL) NOPASSWD: /sbin/service postgresql restart" >> 
 
 RUN VERSION="TM351_21J_0.01" && DATE=`date +%Y-%m-%d/%H:%M.%S` && \
     echo "Version: ${VERSION} - build time: ${DATE}." > /opt/version.txt
+
+# Copy start up files
+COPY .jupyter /var/dist/.jupyter
 
 RUN fix-permissions $HOME
 ENTRYPOINT ["/usr/local/bin/repo2docker-entrypoint", "tini", "-g", "--"]

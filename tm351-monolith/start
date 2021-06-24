@@ -1,16 +1,18 @@
 #!/bin/bash
 
-if [ ! -d "/home/jovyan/work" ]; then
-    mkdir -p /home/jovyan/work
+if [ ! -d "/home/jovyan/tm351" ]; then
+    mkdir -p /home/jovyan/tm351
 fi
 
-if [ ! -f "/home/jovyan/work/.seeded" ]; then
-    cp /var/dist/content/* /home/jovyan/work/
-    touch /home/jovyan/work/.seeded
+if [ ! -f "/home/jovyan/tm351/.seeded" ]; then
+    cp -r /var/dist/content/* /home/jovyan/tm351/
+    touch /home/jovyan/tm351/.seeded
 fi
 
-fix-permissions $HOME
-
+if [ ! -f "/home/jovyan/.jupyter/.seeded" ]; then
+    mkdir -p /home/jovyan/.jupyter
+    cp -r /var/dist/.jupyter /home/jovyan/
+fi
 
 if [ -f "/var/startup/start_jh_extras" ]; then
     sudo /var/startup/start_jh_extras
@@ -23,6 +25,9 @@ sudo service postgresql restart
 # Service file available at: /lib/systemd/system/mongod.service
 #sudo /var/startup/start_mongo
 sudo mongod --fork --logpath /dev/stdout --dbpath ${MONGO_DB_PATH}
+
+# Fix permissions on home directory for files the user group $NB_GID owns
+fix-permissions $HOME
 
 
 # Test dir
