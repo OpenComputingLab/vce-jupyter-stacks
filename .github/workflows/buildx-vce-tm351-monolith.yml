@@ -36,7 +36,7 @@ jobs:
       - name: Run Buildx
         run: |
           docker buildx build \
-            --platform linux/amd64 \
+            --platform linux/amd64,linux/arm64 \
             -t ouvocl/vce-tm351-monolith:${GITHUB_SHA::7} \
             ./tm351-monolith
       - name: Login to DockerHub
@@ -46,24 +46,14 @@ jobs:
       - name: Run Buildx
         run: |
           docker buildx build \
-            --platform linux/amd64 \
+            --platform linux/amd64,linux/arm64 \
             -t ouvocl/vce-tm351-monolith:${GITHUB_SHA::7} \
             ./tm351-monolith \
             --push
           docker buildx build \
-            --platform linux/amd64 \
+            --platform linux/amd64,linux/arm64 \
             -t ouvocl/vce-tm351-monolith:latest \
             ./tm351-monolith \
             --push
-      - name: Run Buildx for arm64
-        run: |
-          docker buildx build \
-            --platform linux/arm64 \
-            -t ouvocl/vce-tm351-monolith:${GITHUB_SHA::7} \
-            ./tm351-monolith --push  
-          docker buildx build \
-            --platform linux/arm64 \
-            -t ouvocl/vce-tm351-monolith:latest \
-            ./tm351-monolith \
-            --push
+ 
   
