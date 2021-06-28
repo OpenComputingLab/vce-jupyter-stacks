@@ -1,5 +1,5 @@
-#FROM ouvocl/vce-tm351-monolith
-FROM ousefuldemos/tm351monolithtestdelme
+ARG BASE_IMAGE=ouvocl/vce-tm351-monolith
+FROM $BASE_IMAGE
 #RUN pip3 install --extra-index-url=https://www.piwheels.org/simple 
 
 
