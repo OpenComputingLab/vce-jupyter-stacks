@@ -18,7 +18,7 @@ Start the container with the flag `-e JUPYTER_TOKEN="my-new-token"` to specify y
 
 ```
 # update the image
-docker pull ouvocl/vce-tm129
+docker pull ouvocl/vce-tm129-content
 # clear any old container
 docker rm -f tm129vce
 # launch new container
