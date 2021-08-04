@@ -150,6 +150,11 @@ RUN VERSION="TM351_21J_0.01" && DATE=`date +%Y-%m-%d/%H:%M.%S` && \
 # Copy start up files
 COPY .jupyter /var/dist/.jupyter
 
+# Check we've updated ou-tm351-py packages
+RUN pip install ou-tm351-py
+
+RUN pip install 
+
 RUN fix-permissions $HOME
 ENTRYPOINT ["/usr/local/bin/repo2docker-entrypoint", "tini", "-g", "--"]
 CMD ["start-notebook.sh"]
