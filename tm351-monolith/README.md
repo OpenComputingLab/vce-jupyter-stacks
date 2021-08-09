@@ -14,6 +14,8 @@ Single image containing all required packages and services, including:
 - MongoDB database
 - OpenRefine
 
+`docker run --name tm351vce --rm -d -p 8351:8888 -v "$PWD/:/home/jovyan/notebooks" ouvocl/vce-tm351-monolith`
+
 ## Architecture
 
 The image buid on the base Python environment ([`tm351-notebook`](https://github.com/OpenComputingLab/vce-jupyter-stacks/tree/main/tm351-notebook)) by installing the additional services as well as a `start` process (inspired by the [MyBinder `start` feature](https://mybinder.readthedocs.io/en/latest/config_files.html#start-run-code-before-the-user-sessions-starts)) to start the services when the container is launched.
