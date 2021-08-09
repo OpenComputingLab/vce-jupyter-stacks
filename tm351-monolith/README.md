@@ -14,7 +14,7 @@ Single image containing all required packages and services, including:
 - MongoDB database
 - OpenRefine
 
-`docker run --name tm351vce --rm -d -p 8351:8888 -v "$PWD/:/home/jovyan/notebooks" ouvocl/vce-tm351-monolith`
+`docker run --name tm351vce --rm -d -p 8351:8888 -v "$PWD/TM351VCE/notebooks:/home/jovyan/notebooks" -v "$PWD/TM351VCE/openrefine_projects:/home/jovyan/openrefine" ouvocl/vce-tm351-monolith`
 
 ## Architecture
 
