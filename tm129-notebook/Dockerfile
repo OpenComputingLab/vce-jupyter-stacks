@@ -16,15 +16,15 @@ RUN apt-get update \
 #RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo jp_proxy_widget | xargs -n 1 pip install --no-cache --find-links=./wheelhouse
 # If we add wheels for every platform, we can add --no-index
 #RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo SQLAlchemy PyYAML durable-rules lxml yarl multidict aiohttp psutil tflite_runtime | xargs -n 1 pip install --no-cache --find-links=./wheelhouse
-RUN echo jp_proxy_widget | xargs -n 1 pip install --no-cache --extra-index-url=https://www.piwheels.org/simple --find-links=https://opencomputinglab.github.io/vce-wheelhouse
-RUN echo SQLAlchemy PyYAML durable-rules lxml yarl multidict aiohttp psutil tflite_runtime | xargs -n 1 pip install --no-cache --extra-index-url=https://www.piwheels.org/simple --find-links=https://opencomputinglab.github.io/vce-wheelhouse
+RUN echo jp_proxy_widget | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse
+RUN echo SQLAlchemy PyYAML durable-rules lxml yarl multidict aiohttp psutil tflite_runtime | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse
 
 
 #USER $NB_USER
 
-RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple --find-links=https://opencomputinglab.github.io/vce-wheelhouse myst-nb jupytext
-RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple --find-links=https://opencomputinglab.github.io/vce-wheelhouse blockdiag blockdiagMagic
-RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple --find-links=https://opencomputinglab.github.io/vce-wheelhouse ou-tm129-py
+RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple myst-nb jupytext
+RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple blockdiag blockdiagMagic
+RUN pip3 install --no-cache --extra-index-url=https://www.piwheels.org/simple ou-tm129-py
 
 # x86_64, armv7l,
 ARG PROCESSOR_FAMILY=x86_64
