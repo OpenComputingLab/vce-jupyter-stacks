@@ -19,9 +19,9 @@ RUN apt-get update && \
 # For the --mount we also need the py3.8 wheels if we have --no-index
 #RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo multidict aiohttp kiwisolver lxml PyYAML yarl Pillow numpy matplotlib psutil SQLAlchemy | xargs -n 1 pip install --no-cache --find-links=./wheelhouse  
 #RUN --mount=type=bind,target=./wheelhouse/,source=./wheelhouse/ echo multidict aiohttp kiwisolver lxml PyYAML yarl Pillow numpy matplotlib psutil SQLAlchemy | xargs -n 1 pip install --find-links=./wheelhouse 
-RUN echo yarl multidict aiohttp kiwisolver lxml PyYAML Pillow numpy matplotlib psutil SQLAlchemy | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse
+RUN echo yarl multidict aiohttp kiwisolver lxml PyYAML Pillow numpy matplotlib psutil SQLAlchemy | xargs -n 1 pip install --no-cache --extra-index-url=https://www.piwheels.org/simple --find-links=https://opencomputinglab.github.io/vce-wheelhouse
 
-RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \
+RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple --find-links=https://opencomputinglab.github.io/vce-wheelhouse \
     'cython' \
     'dill' \
     'ipywidgets' \
