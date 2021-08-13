@@ -23,6 +23,6 @@ RUN apt-get update && apt-get install -y libproj-dev \
 #RUN echo psycopg2-binary | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse && \
 #    echo PyICU pynacl regex lxml pyproj fiona shapely nltk multidict yarl aiohttp psycopg2 SQLAlchemy PyYAML pymongo | xargs -n 1 pip install --no-cache --find-links=https://opencomputinglab.github.io/vce-wheelhouse
 
-RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple geopandas && pip install --no-cache --extra-index-url=https://www.piwheels.org/simple ou-tm351-py>=0.0.3
+RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple geopandas && pip install --upgrade --no-cache --extra-index-url=https://www.piwheels.org/simple ou-tm351-py
 
 USER $NB_USER
