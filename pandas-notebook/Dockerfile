@@ -3,6 +3,7 @@
 # Distributed under the terms of the Modified BSD License.
 ARG BASE_IMAGE=ouvocl/jupyter-base
 FROM $BASE_IMAGE
+ARG TARGETPLATFORM
 
 LABEL maintainer="Tony Hirst <tony.hirst@open.ac.uk>"
 
@@ -38,7 +39,9 @@ RUN pip install --no-cache --extra-index-url=https://www.piwheels.org/simple \
 # This errors in RPi32 - but is that because of a Github Action memory issue?!
 ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
 #Why does this not run in RPi32?
-RUN MPLBACKEND=Agg python3 -c "import matplotlib.pyplot" &>/dev/null
+#RUN MPLBACKEND=Agg python3 -c "import matplotlib.pyplot" &>/dev/null
+# TARGETPLATFORM: linux/amd64, linux/arm64, linux/arm/v7
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ] || ["$TARGETPLATFORM" = "linux/arm64"] ; then MPLBACKEND=Agg python3 -c "import matplotlib.pyplot" &>/dev/null ; fi 
 
 # Activate ipywidgets extension in the environment that runs the notebook server
 RUN fix-permissions "/home/${NB_USER}" && jupyter nbextension enable --py widgetsnbextension --user
