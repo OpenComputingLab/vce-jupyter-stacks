@@ -151,7 +151,7 @@ RUN VERSION="TM351_21J_0.01" && DATE=`date +%Y-%m-%d/%H:%M.%S` && \
 COPY .jupyter /var/dist/.jupyter
 
 # Check we've updated ou-tm351-py packages
-RUN pip install --upgrade ou-tm351-py
+RUN pip install --upgrade "ou-tm351-py>=0.0.8"
 
 RUN fix-permissions $HOME
 ENTRYPOINT ["/usr/local/bin/repo2docker-entrypoint", "tini", "-g", "--"]
