@@ -14,7 +14,7 @@ USER root
         # Install the latest version of PostgreSQL.
         # If you want a specific version, use 'postgresql-12' or similar instead of 'postgresql':
 #        apt-get -y install postgresql
-RUN apt-get update && apt-get install -y postgresql
+RUN apt-get update && apt-get install -y postgresql lsof
 RUN PG_DB_DIR=/var/db/data/postgres && mkdir -p $PG_DB_DIR
 
 # Add Mongo
