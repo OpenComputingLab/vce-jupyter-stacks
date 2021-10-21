@@ -23,4 +23,4 @@ Example start command:
 - download and run a docker container that shares the contents of `localnotebooks` directory into the `notebooks` directory on the container:
 `docker run --name scipy_container -d -p 8899:8888 -v "$PWD/delme3:/home/jovyan/notebooks" -e JUPYTER_TOKEN="letmein" ouvocl/vce-scipy`
 
-Wait a few moments and then got to `localhost:8899` or open the container homepage from the container list item in DOcker Dashboard.
+Wait a few moments and then got to `localhost:8899` or open the container homepage from the container list item in Docker Dashboard. Login to the notebooks using the provided token (in the above example, this is `letmein`).
