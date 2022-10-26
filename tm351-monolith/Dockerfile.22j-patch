@@ -1,0 +1,12 @@
+#FROM ouvocl/vce-tm351-jh:efd320c
+FROM ouvocl/vce-tm351-monolith:0f45ff3
+#ARG BASE_IMAGE=ouvocl/vce-tm351-monolith:latest
+#FROM $BASE_IMAGE
+
+RUN pip install --upgrade notebook==6.4.12
+RUN pip install --upgrade nb-serverproxy-openrefine==0.0.5
+
+
+#docker buildx build --platform linux/amd64 -t ouvocl/vce-tm351-jh:22j-b1 . --push
+#docker buildx build --platform linux/amd64,linux/arm64  -t ouvocl/vce-tm351-monolith:22j-b1 . --push
+#docker buildx build --platform linux/amd64,linux/arm64  -t ouvocl/vce-tm351-monolith:22j-b2 . --push
