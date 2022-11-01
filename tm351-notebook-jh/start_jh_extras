@@ -4,6 +4,7 @@
 # Can't seem to access these from the Dockerfile setting?
 JHPG=/home/jovyan/.postgres
 PGDATA=/home/jovyan/.postgres/12/main
+export PGDATA
 
 if [ ! -d "$JHPG" ]; then
     # Move postgres databases
@@ -27,6 +28,7 @@ fi
 # ${MONGO_DB_PATH} == /var/db/data/mongo
 JHMONGO=/home/jovyan/.mongo
 MONGO_DB_PATH=/home/jovyan/.mongo/
+export MONGO_DB_PATH
 
 if [ ! -d "$JHMONGO" ]; then
     #mkdir -p $JHMONGO
