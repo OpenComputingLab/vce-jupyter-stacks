@@ -1,12 +1,24 @@
-#FROM ouvocl/vce-tm351-jh:efd320c
-FROM ouvocl/vce-tm351-monolith:0f45ff3
+FROM ouvocl/vce-tm351-jh:efd320c
+#FROM ouvocl/vce-tm351-monolith:0f45ff3
 #ARG BASE_IMAGE=ouvocl/vce-tm351-monolith:latest
 #FROM $BASE_IMAGE
 
+USER root
+RUN pip install --upgrade ipython==8.6.0 # Added for b7
 RUN pip install --upgrade notebook==6.4.12
 RUN pip install --upgrade nb-serverproxy-openrefine==0.0.5
+RUN pip install --upgrade nb-extension-empinken==0.0.5 # Added for b8
 
+RUN apt-get update && apt-get install -y lsof && apt-get clean
+RUN touch /var/.vce_build22j_b8
+USER $NB_USER
 
+# TO DO - the mongo and postgres db paths are not exported if they get updated by start script
+#       - need to update to latest https://github.com/OpenComputingLab/vce-jupyter-stacks/blob/main/tm351-notebook-jh/start_jh_extras
 #docker buildx build --platform linux/amd64 -t ouvocl/vce-tm351-jh:22j-b1 . --push
 #docker buildx build --platform linux/amd64,linux/arm64  -t ouvocl/vce-tm351-monolith:22j-b1 . --push
 #docker buildx build --platform linux/amd64,linux/arm64  -t ouvocl/vce-tm351-monolith:22j-b2 . --push
+#docker buildx build --platform linux/amd64,linux/arm64  -t ouvocl/vce-tm351-jh:22j-b2 . --push
+#docker buildx build --platform linux/amd64,linux/arm64  -t ouvocl/vce-tm351-jh:22j-b6 . --push
+#docker buildx build --platform linux/amd64,linux/arm64  -t ouvocl/vce-tm351-jh:22j-b7 . --push
+#docker buildx build --platform linux/amd64,linux/arm64  -t ouvocl/vce-tm351-jh:22j-b8 . --push
