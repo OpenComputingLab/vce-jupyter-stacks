@@ -17,6 +17,7 @@ The notebook is token protected. To login, use the token: `letmein`
 
 Start the container with the flag `-e JUPYTER_TOKEN="my-new-token"` to specify your own token.
 
+`docker run --name tm351vce --rm -d -p 8351:8888 -v "$PWD/TM351VCE/notebooks:/home/jovyan/notebooks" -v "$PWD/TM351VCE/openrefine_projects:/home/jovyan/openrefine" ouvocl/vce-tm351-jh`
 
 ## Currently incomplete
 
